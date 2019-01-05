@@ -1,0 +1,16 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{E6DF2125-42BF-38A5-F528-418C406469B4}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "Mow",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	]
+}
