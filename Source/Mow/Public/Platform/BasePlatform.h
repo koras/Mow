@@ -4,24 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "ConstructorHelpers.h"
 #include "BasePlatform.generated.h"
 
 UCLASS()
 class MOW_API ABasePlatform : public APawn
 {
-	GENERATED_BODY()
+	//GENERATED_BODY()
 
-public:
+		GENERATED_UCLASS_BODY()
+//public:
 	// Sets default values for this pawn's properties
-	ABasePlatform();
+	//ABasePlatform();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
+	UStaticMeshComponent* OurVisibleComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MeshBild")
+		UStaticMeshComponent * Fly;
+
+
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+//	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
