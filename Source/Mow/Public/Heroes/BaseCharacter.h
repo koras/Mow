@@ -9,7 +9,8 @@
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 
 
-#include "AttributesComponent.h"
+#include "Components/AttributesComponent.h"
+//#include "AttributesComponent.h"
 
 #include "ConstructorHelpers.h"
 #include "BaseCharacter.generated.h" 
@@ -31,8 +32,8 @@ struct FCharacterTile
 		int32 	number;// number tile
 	FString		toolTip;// name tile
 	FString		ButtonType; // type tile
-	UTexture2D* TexturePressed;
-	UTexture2D* TextureReleased;
+//	UTexture2D* TexturePressed;
+//	UTexture2D* TextureReleased;
 
 	float 		minX;
 	float 		maxX;
@@ -44,13 +45,13 @@ struct FCharacterTile
 
 	FCharacterTile()
 	{
-		static ConstructorHelpers::FObjectFinder<UTexture2D> ButtonBack(TEXT("/Game/HUD/Texture/Texture_red_yellow.Texture_red_yellow"));
-		static ConstructorHelpers::FObjectFinder<UTexture2D> EnemyTeamHPObj(TEXT("/Game/HUD/Texture/blue.blue"));
+	//	static ConstructorHelpers::FObjectFinder<UTexture2D> ButtonBack(TEXT("/Game/HUD/Texture/Texture_red_yellow.Texture_red_yellow"));
+	//	static ConstructorHelpers::FObjectFinder<UTexture2D> EnemyTeamHPObj(TEXT("/Game/HUD/Texture/blue.blue"));
 		number = 1;
 		toolTip = "";
 		ButtonType = "";
-		TexturePressed = ButtonBack.Object;
-		TextureReleased = EnemyTeamHPObj.Object;
+	//	TexturePressed = ButtonBack.Object;
+	//	TextureReleased = EnemyTeamHPObj.Object;
 		minX = 0;
 		maxX = 50;
 		minY = 0;
@@ -122,6 +123,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
 		FString NameCurrentHeroes;
+
 
 	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentDead;
@@ -227,6 +229,7 @@ private:
 	void DeadActor();
 	void SpawnGarbage();
 	void IslandSearch();
+
 	FVector vTmp;
 	void HealthComputation();
 

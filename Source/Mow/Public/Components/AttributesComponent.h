@@ -24,8 +24,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
 		bool bIsAbordage = false;
 
-
-
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
 		float CharacterCurrentManna;
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
@@ -51,9 +49,9 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, Category = "Heroes")
 		FVector BaseCharLocation;
 
-	float  AttackRadius;
-	float  AttackSpeed;
-	bool   CanAttack;
+	float AttackRadius;
+	float AttackSpeed;
+	bool CanAttack;
 	bool IsMoveActor;
 
 	// Characteristics of the hero

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Components/AttributesComponent.h"
 #include "BaseBuilding.generated.h"
 
 UCLASS()
@@ -14,6 +15,10 @@ class MOW_API ABaseBuilding : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ABaseBuilding();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
+		UAttributesComponent *Attributes;
 
 protected:
 	// Called when the game starts or when spawned

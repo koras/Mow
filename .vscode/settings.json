@@ -1,9 +1,0 @@
-{
-	"files.exclude": {
-		"C:/ue/Mow/.dist": true,
-		"C:/ue/Mow/.vscode": true,
-		"C:/ue/Mow/Content": true,
-		"C:/ue/Mow/Intermediate": true,
-		"C:/ue/Mow/Saved": true
-	}
-}
