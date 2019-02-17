@@ -2,10 +2,12 @@
 
 #include "BaseCharacter.h" 
 
+
 // Sets default values
 ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+
 	Attributes = CreateDefaultSubobject<UAttributesComponent>(TEXT("Attribute"));
 	//Attributes->RangeView = 1100;
 	//Attributes->TimeOfShooting = 0.5f;
@@ -63,7 +65,6 @@ void ABaseCharacter::CursorOut(UPrimitiveComponent* pComponent)
 
 void ABaseCharacter::OnClick(UPrimitiveComponent* pComponent)
 {
-	//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::OnClick Кликаем по герою"));
 
 }
 
@@ -137,23 +138,17 @@ void ABaseCharacter::DeadActor()
 	//}
 
 	//	if (DataBar)
-	//	{// выключаем бар
+	//	{
 	//		DataBar->RemoveFromParent();
 	//	}
 
-	//Если корабль тащит остров, то его необходимо отцепить
 	RemovingIslandAbordage();
-	// удаляем объект корабля из игры
 	Destroy();
 }
 
-/*
-*  Остров снимается с абордажа с кнопки на HUD
-* или когда умирает герой
-*/
 void ABaseCharacter::RemovingIslandAbordage() {
 	if (Attributes->bIsAbordage) {
-		//	UE_LOG(LogTemp, Warning, TEXT("Герой снимает остров с абордажа"));
+
 
 		if (ConstraintComp)
 		{
@@ -174,7 +169,6 @@ void ABaseCharacter::RemovingIslandAbordage() {
 			bBusy = false;
 
 			SetNewLocation(GetActorLocation() + GetActorForwardVector()*300.f);
-			//	UE_LOG(LogTemp, Warning, TEXT("Удаляем компонент"));
 		}
 	}
 }
@@ -195,8 +189,8 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 	IsMoveActor = true;
 	AnimationStart();
 
-	//	UE_LOG(LogTemp, Warning, TEXT("Новая точка движения GetActorLocation %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
-	//	UE_LOG(LogTemp, Warning, TEXT("Новая точка движения DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
+	//	UE_LOG(LogTemp, Warning, TEXT(" GetActorLocation %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+	//	UE_LOG(LogTemp, Warning, TEXT("DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
 	PlayerAI->SendMoveActor(WeaponMesh, this, DestLocation);
 	bBusy = true;
 	}

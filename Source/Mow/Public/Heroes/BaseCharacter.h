@@ -123,6 +123,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
 		FString NameCurrentHeroes;
 
+
 	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentDead;
 		//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
