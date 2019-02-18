@@ -9,16 +9,68 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 {
 
 	Attributes = CreateDefaultSubobject<UAttributesComponent>(TEXT("Attribute"));
-	//Attributes->RangeView = 1100;
-	//Attributes->TimeOfShooting = 0.5f;
-	//Attributes->Shoot = 1;
-	//Attributes->fDamageAmount(100.f);
-	//GunComponent->RegisterComponent();
-
-	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	 
+ 
+ 
+	//static ConstructorHelpers::FObjectFinder<UBlendSpace1D>  BS(TEXT("BlendSpace1D'/Game/Heroes/WorkerH/anim/idle/worker_anim_Skeleton_BlendSpace1D2.worker_anim_Skeleton_BlendSpace1D2'"));
+	//check(BS.Object);
+	//static ConstructorHelpers::FObjectFinder <UStaticMesh>cubeStandart(TEXT("StaticMesh'/Game/Primitive/mash/cubeStandart.cubeStandart'"));
+	//check(cubeStandart.Object);
+	static ConstructorHelpers::FObjectFinder <UStaticMesh>ObodMesh(TEXT("StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
+	check(ObodMesh.Object);
+//	static ConstructorHelpers::FObjectFinder <UStaticMesh>ObodMesh2(TEXT("StaticMesh'/Game/Primitive/mash/cube2.cube2'"));
+	//check(ObodMesh.Object);
+//	BlendSpace = BS.Object;
+
+
+
+	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>( TEXT("Block"));
+	RootComponent = WeaponMesh;
+
+	WeaponMesh->CastShadow = false;
+	WeaponMesh->bVisible = false;
+	WeaponMesh->SetWorldScale3D(FVector(1.f));
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	WeaponMesh->SetCollisionProfileName(FName("WarrCharacter"));
+
+	WeaponMesh->SetConstraintMode(EDOFMode::XYPlane);
+	//WeaponMesh->OnClicked.AddDynamic(this, &ABaseCharacter::OnClick);
+	////WeaponMesh->OnBeginCursorOver.AddDynamic(this, &ABaseCharacter::CursorOver);
+	//WeaponMesh->OnEndCursorOver.AddDynamic(this, &ABaseCharacter::CursorOut);
+	//WeaponMesh->SetLinearDamping(powerMotion);
+	//WeaponMesh->SetAngularDamping(angularRotation);
+	WeaponMesh->SetSimulatePhysics(true);
+
+
+
+
+
+	// FOR COLLISION
+	proxSphere = CreateDefaultSubobject<USphereComponent>( TEXT("Sphere"));
+	//proxSphere->AttachTo(RootComponent);
+	proxSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+	proxSphere->SetSphereRadius(80.f);// old 40
+	proxSphere->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
+	proxSphere->SetCollisionProfileName(FName("WarrCircle"));
+
+
+	// IslandSkeletalMeshMesh
+	IslandSkeletalMeshMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("IslandSkeletalMeshMesh"));
+	//IslandSkeletalMeshMesh->AttachTo(RootComponent);
+	IslandSkeletalMeshMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); 
+	IslandSkeletalMeshMesh->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
+//	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
+	IslandSkeletalMeshMesh->SetCollisionProfileName(FName("OverlapAll"));
+	IslandSkeletalMeshMesh->CastShadow = false;
+//	IslandSkeletalMeshMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+
 }
+
+
+
+
 
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()

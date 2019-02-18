@@ -5,9 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+ 
+#include "ConstructorHelpers.h"
 #include "Components/AudioComponent.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
-
+#include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
 
 #include "Components/AttributesComponent.h"
 //#include "AttributesComponent.h"
@@ -77,7 +81,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
 		UAttributesComponent *Attributes;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+		UStaticMeshComponent * WeaponMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+		UStaticMeshComponent * WeaponMeshClick;
 
 
 	 
@@ -116,10 +123,7 @@ public:
 		USkeletalMeshComponent *IslandSkeletalMeshMesh;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-		UStaticMeshComponent * WeaponMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-		UStaticMeshComponent * WeaponMeshClick;
+ 
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
 		FString NameCurrentHeroes;
