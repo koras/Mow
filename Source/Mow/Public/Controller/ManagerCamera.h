@@ -32,6 +32,9 @@ class MOW_API AManagerCamera : public APawn
 	GENERATED_BODY()
 
 public:
+
+	UStaticMeshComponent * Fly;
+
 	// Sets default values for this pawn's properties
 	AManagerCamera();
 

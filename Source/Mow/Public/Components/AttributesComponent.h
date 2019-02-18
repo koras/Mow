@@ -13,8 +13,10 @@ class MOW_API UAttributesComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+
+
 public:	
-	// Sets default values for this component's properties
+	// Sets default values for this component's proper12ties
 	UAttributesComponent();
 
 
