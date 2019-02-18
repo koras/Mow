@@ -15,18 +15,37 @@ AManagerCamera::AManagerCamera()
 	CameraFixSpringArm.Min = FVector(-15610.0f, -6050.0f, 500.f);
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0; 
+
+
+
+
 	OurCameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
 	USceneComponent * RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+
 	UCameraComponent* OurCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("MyCamera"));
 	OurVisibleComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyVisible"));
-	OurCameraSpringArm->AttachTo(RootComponent);
+
+	 
+	OurVisibleComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+
+
+//	static ConstructorHelpers::FObjectFinder <UStaticMesh>StaticMesh(TEXT("StaticMesh'/Game/Platform/Platform.Platform'"));
+ 
+
+
+	 
+	OurCameraSpringArm->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	OurCameraSpringArm->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, CameraHeight), FRotator(-61.0f, 0.0f, 0.0f));
 	OurCameraSpringArm->TargetArmLength = CameraHeight;
 	OurCameraSpringArm->bEnableCameraLag = false;
 
-	OurCamera->AttachTo(OurCameraSpringArm);
+	 
+	 
+//	OurCamera->AttachTo(OurCameraSpringArm);
+	OurCamera->AttachToComponent(OurCameraSpringArm, FAttachmentTransformRules::KeepWorldTransform);
 	OurCamera->FieldOfView = 90.f;
-	OurVisibleComponent->AttachTo(RootComponent);
+	 
+	 
 	CameraMove = false;
 
 }
@@ -114,7 +133,7 @@ void AManagerCamera::MiddleMouseStart()
 	ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery1);
 
 	FHitResult HitResult;
-	APlayerController* controller = UGameplayStatics::GetPlayerController(AActor::GetWorld(), 0);
+	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	controller->GetHitResultUnderCursor(ECC_Pawn, true, HitResult);
 	CameraMoveStart = HitResult.Location;
 	 
@@ -129,7 +148,7 @@ void AManagerCamera::MiddleMouseStart()
 void AManagerCamera::MiddleMouseStop()
 {
 	CameraMove = false;
-//	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
+	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 }
 
 

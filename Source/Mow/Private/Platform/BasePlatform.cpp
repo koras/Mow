@@ -24,7 +24,7 @@ ABasePlatform::ABasePlatform(const FObjectInitializer& ObjectInitializer)
 	FVector Scale = FVector(40.0f, 40.0f, 0.001f);
 	Fly->CastShadow = false;
 	Fly->SetWorldScale3D(Scale);
-	Fly->SetMobility(EComponentMobility::Static);
+//	Fly->SetMobility(EComponentMobility::Static);
 }
 
 // Called when the game starts or when spawned
