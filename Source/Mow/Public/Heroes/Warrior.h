@@ -12,6 +12,23 @@
 UCLASS()
 class MOW_API AWarrior : public ABaseCharacter
 {
-	GENERATED_BODY()
-	
+	GENERATED_UCLASS_BODY()
+
+public:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	virtual void NativeInitializeAnimation();
+	virtual void NativeUpdateAnimation(float DeltaTimeX);
+
+	//	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	UFUNCTION(Category = Default)
+		void OverlapBeginComponent(UPrimitiveComponent* pComponent);
+	UFUNCTION(Category = Default)
+		virtual void AnimationGo();
+	UFUNCTION(Category = Default)
+		virtual void AnimationSTOP();
+	UFUNCTION(Category = Default)
+		virtual void AnimationStart();
+
+	void GoBuild();
 };
