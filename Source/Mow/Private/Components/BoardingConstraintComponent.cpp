@@ -5,6 +5,7 @@
 void UBoardingConstraintComponent::RemovingIslandAbordage()
 {
 
+
 }
 // who pulls
 // who are pulling
@@ -13,7 +14,7 @@ void UBoardingConstraintComponent::startAbordage(AActor * whoPulls, AActor * who
 	//if (!IsLand)return;
 	UE_LOG(LogTemp, Warning, TEXT("void ABaseCharacter::ConstraintActor() 1"));
 
-	// Можно ли героям перемещать остров
+
 	//if (IsLand->bMove && IsLand->bHeroes_Island == false && bIsAbordage == false) {
 	UE_LOG(LogTemp, Warning, TEXT("void ABaseCharacter::ConstraintActor() 2"));
 	//	ConstraintComp = NewObject<UPhysicsConstraintComponent>(this);
@@ -68,7 +69,7 @@ void UBoardingConstraintComponent::startAbordage(AActor * whoPulls, AActor * who
 //	}
 //}
 //	else {
-//		UE_LOG(LogTemp, Warning, TEXT("Перемещение острова запрещено. 1 %s"), *IsLand->GetName());
+//		UE_LOG(LogTemp, Warning, TEXT(" 1 %s"), *IsLand->GetName());
 //	}
 }
 
@@ -92,6 +93,6 @@ void UBoardingConstraintComponent::stopAbordage()
 	//	bBusy = false;
 
 	//	SetNewLocation(GetActorLocation() + GetActorForwardVector()*300.f);
-		//	UE_LOG(LogTemp, Warning, TEXT("Удаляем компонент"));
+		//	UE_LOG(LogTemp, Warning, TEXT("delete component"));
 	//}
 }
