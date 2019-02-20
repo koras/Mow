@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "Mow.h"
 
-#include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 
 #include "Components/SphereComponent.h" 
@@ -10,23 +10,14 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/AttributesComponent.h"
- 
 #include "ConstructorHelpers.h" 
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
- 
-//#include "AttributesComponent.h"
 
 
 #include "BaseCharacter.generated.h" 
 
 
-
-
-
-/**
-* create character hud tile
-*/
 
 USTRUCT()
 struct FCharacterTile
@@ -78,7 +69,7 @@ public:
 	// Sets default values for this pawn's properties
 	//ABaseCharacter();
 
-
+	bool test1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
 		UAttributesComponent *Attributes;
 

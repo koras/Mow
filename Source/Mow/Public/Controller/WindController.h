@@ -2,16 +2,13 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Mow.h" 
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
-
 #include "Runtime/Engine/Public/EngineUtils.h"
 #include "BaseCharacter.h" 
 #include "WindController.generated.h"
-
-
 USTRUCT()
 struct FCharacterMove
 {

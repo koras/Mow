@@ -12,8 +12,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 
-	 
- 
+
 	//static ConstructorHelpers::FObjectFinder<UBlendSpace1D>  BS(TEXT("BlendSpace1D'/Game/Heroes/WorkerH/anim/idle/worker_anim_Skeleton_BlendSpace1D2.worker_anim_Skeleton_BlendSpace1D2'"));
 	//check(BS.Object);
 	//static ConstructorHelpers::FObjectFinder <UStaticMesh>cubeStandart(TEXT("StaticMesh'/Game/Primitive/mash/cubeStandart.cubeStandart'"));

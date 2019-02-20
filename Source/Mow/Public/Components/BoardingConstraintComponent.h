@@ -1,14 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
-#include "CoreMinimal.h"
+#include "Mow.h"
+//#include "CoreMinimal.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "BoardingConstraintComponent.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class MOW_API UBoardingConstraintComponent : public UPhysicsConstraintComponent
 {

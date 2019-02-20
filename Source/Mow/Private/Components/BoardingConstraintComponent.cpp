@@ -13,8 +13,6 @@ void UBoardingConstraintComponent::startAbordage(AActor * whoPulls, AActor * who
 {
 	//if (!IsLand)return;
 	UE_LOG(LogTemp, Warning, TEXT("void ABaseCharacter::ConstraintActor() 1"));
-
-
 	//if (IsLand->bMove && IsLand->bHeroes_Island == false && bIsAbordage == false) {
 	UE_LOG(LogTemp, Warning, TEXT("void ABaseCharacter::ConstraintActor() 2"));
 	//	ConstraintComp = NewObject<UPhysicsConstraintComponent>(this);
