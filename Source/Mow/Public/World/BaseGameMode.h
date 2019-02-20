@@ -2,14 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/GameMode.h"
-
-
+#include "CoreMinimal.h" 
 #include "WindController.h"
 #include "ManagerCamera.h"
-
-
+#include "GameFramework/GameMode.h"
 #include "BaseGameMode.generated.h"
 
 /**

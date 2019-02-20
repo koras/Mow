@@ -4,19 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Components/SphereComponent.h"
+
+#include "Components/SphereComponent.h" 
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
- 
-#include "ConstructorHelpers.h"
 #include "Components/AudioComponent.h"
+#include "Components/AttributesComponent.h"
+ 
+#include "ConstructorHelpers.h" 
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
-
-#include "Components/AttributesComponent.h"
+ 
 //#include "AttributesComponent.h"
 
-#include "ConstructorHelpers.h"
+
 #include "BaseCharacter.generated.h" 
 
 
@@ -91,13 +92,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
 		int32 ClanChar;
 	/*
-	* Идём к острову для того чтобы взять остров
 	* We go to the island to take the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
 		bool GoBehindTheIsland;
-	/*
-	* Идём к острову для того чтобы взять остров
+	/*в
 	* We go to the island to take the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
@@ -123,18 +122,27 @@ public:
 		USkeletalMeshComponent *IslandSkeletalMeshMesh;
 
 
+	/*my hero or foe*/
+	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
+		bool MyHero;
  
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
 		FString NameCurrentHeroes;
 
+	void BreakCommand();
 
 	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentDead;
 		//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentCannon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
+		bool bBattleSelectedCursor;
 
+
+	UPROPERTY(EditAnywhere, Category = "Controller", BlueprintReadWrite)
+		bool MouseEvent;
 
 
 	//	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
@@ -152,9 +160,7 @@ protected:
 		void CursorOver(UPrimitiveComponent* pComponent);
 	UFUNCTION(Category = Default)
 		void CursorOut(UPrimitiveComponent* pComponent);
-
-	UPROPERTY(EditAnywhere, Category = "Controller", BlueprintReadWrite)
-		bool MouseEvent;
+	 
 	// Уровень бога
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "God")
 		bool iGod;
@@ -162,9 +168,12 @@ protected:
 		UAudioComponent* AudioComponentDead;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		UAudioComponent* AudioComponentCannon;
-
-
+ 
 	float  TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)  override;
+
+
+	UMaterialInterface * StoredMaterial;
+	 
 
 public:
 	// Called every frame
@@ -200,10 +209,7 @@ public:
 
 
 	void AddTimeHealth();
-	/** Занят ли герой или свободен
-	* Занят может быть если получил команду от игрока, например движение.
-	* Не занят, просто стоит на месте
-	*/
+ 
 	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
 		bool bBusy;
 	UFUNCTION(BlueprintCallable, Category = "move")

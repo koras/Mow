@@ -7,19 +7,20 @@ AWorker::AWorker(const FObjectInitializer& ObjectInitializer) : Super(ObjectInit
 
 	static ConstructorHelpers::FObjectFinder <UStaticMesh>StaticMesh(TEXT("StaticMesh'/Game/Heroes/WorkerH/mesh/Worker_v5.Worker_v5'"));
 	check(StaticMesh.Object);
-	static ConstructorHelpers::FObjectFinder<UMaterialInstance> Material_Island_tmp(TEXT("MaterialInstanceConstant'/Game/Heroes/WorkerH/mat/worker_texturing3_Mat_Inst.worker_texturing3_Mat_Inst'"));
+	 ConstructorHelpers::FObjectFinder<UMaterialInterface> Material_Island_tmp(TEXT("MaterialInstanceConstant'/Game/Heroes/WorkerH/mat/worker_texturing3_Mat_Inst.worker_texturing3_Mat_Inst'"));
 	check(Material_Island_tmp.Object);
-
+	StoredMaterial = Material_Island_tmp.Object;
+//	class UMaterialInstance* ParkTileMaterial = Material_Island_tmp;
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> bone(TEXT("SkeletalMesh'/Game/Heroes/WorkerH/anim/idle/Worker_idle.Worker_idle'"));
 	check(bone.Object);
  
 
 	WeaponMesh->SetStaticMesh(StaticMesh.Object);
-	WeaponMesh->SetMaterial(0, Material_Island_tmp.Object);
+	WeaponMesh->SetMaterial(0, StoredMaterial);
+
 
 	IslandSkeletalMeshMesh->SetSkeletalMesh(bone.Object);
-	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
- 
+	IslandSkeletalMeshMesh->SetMaterial(0, StoredMaterial);
  
 }
 

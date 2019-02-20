@@ -11,8 +11,8 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	Attributes = CreateDefaultSubobject<UAttributesComponent>(TEXT("Attribute"));
 	PrimaryActorTick.bCanEverTick = true;
 
+
 	 
- 
  
 	//static ConstructorHelpers::FObjectFinder<UBlendSpace1D>  BS(TEXT("BlendSpace1D'/Game/Heroes/WorkerH/anim/idle/worker_anim_Skeleton_BlendSpace1D2.worker_anim_Skeleton_BlendSpace1D2'"));
 	//check(BS.Object);
@@ -132,6 +132,8 @@ float ABaseCharacter::TakeDamage(float Damage, struct FDamageEvent const& Damage
 		//	UE_LOG(LogTemp, Warning, TEXT("i God %f"), Damage);
 		return Damage;
 	}
+
+
 	// Call the base class - this will tell us how much damage to apply  
 	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 	if (ActualDamage > 0.f)
@@ -276,3 +278,12 @@ if (CharacterCurrentHealth >= CharacterMaxHealth)CharacterCurrentHealth = Charac
 //	UE_LOG(LogTemp, Warning, TEXT("CharacterCurrentHealth %f"), CharacterCurrentHealth);
 }
 */
+void ABaseCharacter::BreakCommand()
+{
+//	PlayerAI = Cast<ABaseAIController>(GetController());
+//	if (PlayerAI) {
+
+		bBusy = false;
+	//	PlayerAI->BreakAI();
+//	}
+}
