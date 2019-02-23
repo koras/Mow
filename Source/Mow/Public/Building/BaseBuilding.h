@@ -31,4 +31,33 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh Bild Status")
+		int32 Status;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh Bild Status")
+		float BuildProgress;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh Bild Status")
+		float BuildMax;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bild Status")
+		bool MyBuild;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Bild Status")
+		bool BuildViewPort;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Bild Status")
+		bool MouseBuildViewPort;
+
+	UPROPERTY(EditAnywhere, Category = "Property", BlueprintReadWrite)
+		FString BuilderName;
+
+	void StartSpawn();
+
+	int32 stepBuild;
+	const FVector CSphereLocation = FVector(0.0f, 0.0f, 150.0f);
+
+
+
+	void DeadActor();
+
+	UPROPERTY(EditAnywhere, Category = "Property", BlueprintReadWrite)
+		int32 BuildFraction;
 };

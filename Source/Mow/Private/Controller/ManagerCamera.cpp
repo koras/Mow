@@ -104,7 +104,7 @@ void AManagerCamera::CameraMoveXY(float DeltaTime)
 	if (!CurrentVelocity.IsZero())
 	{ 
 		FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
-		UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::CameraMoveXY11  %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
+	//	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::CameraMoveXY11  %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
 		NewLocationCameraTick(NewLocation);
 	}else{
 
@@ -136,7 +136,7 @@ void AManagerCamera::MiddleMouseStart()
 	controller->GetHitResultUnderCursor(ECC_Pawn, true, HitResult);
 	CameraMoveStart = HitResult.Location;
 	 
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStart  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStart  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 
 //	UE_LOG(LogTemp, Warning, TEXT(" CameraMoveStart %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 //	UE_LOG(LogTemp, Warning, TEXT(" HitResult %s"), *HitResult.GetActor()->GetName());
@@ -147,7 +147,7 @@ void AManagerCamera::MiddleMouseStart()
 void AManagerCamera::MiddleMouseStop()
 {
 	CameraMove = false;
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 }
 
 
@@ -215,6 +215,6 @@ void AManagerCamera::NewLocationCameraTick(FVector NewLocation)
 	NewLocation.Y = FMath::Clamp(NewLocation.Y, CameraFixSpringArm.Min.Y, CameraFixSpringArm.Max.Y);
 	NewLocation.X = FMath::Clamp(NewLocation.X, CameraFixSpringArm.Min.X, CameraFixSpringArm.Max.X);
 
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::NewLocationCameraTick NewLocation %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::NewLocationCameraTick NewLocation %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
 	SetActorLocation(NewLocation);
 }
