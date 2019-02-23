@@ -138,10 +138,10 @@ public:
 	// To determine whether a key is pressed
 
 	UPROPERTY(EditAnywhere, Category = "", BlueprintReadWrite)
-		bool bPressRightMouseKey;
+		bool bPressRightMouseKey = false;
 
 	// You can build a building or not, when choosing.
-	bool bWindYouCanBuild;
+	bool bWindYouCanBuild = false;
 
 	// players controls
 
@@ -152,8 +152,7 @@ public:
 
 	void SetCommandSpawnDrone();
 	TArray<AActor*> WorldActorArray;
-
-	bool SpawnDrone;
+	 
 
 	UFUNCTION(BlueprintCallable, Category = "WidgetVariables")
 		void ChoiceBuildingPoint();
@@ -165,10 +164,7 @@ public:
 	TArray<FCharacterMove> TArCharacterStructure;
 
 	FCharacterMove BaseCharacterStructure;
-
-	FSinCos SinCos;
-	float DistanceRangePoint;
-
+	 
 	TArray<FBusyPoint> ArrayBusyPoint;
 	TArray<FNeighborsPoint>  ArrayNeighbors;
 	FNeighborsPoint  INeighbors;
@@ -229,27 +225,11 @@ public:
 	bool ChoosenSpawnActor;
 	 
 
-
-	// search new location for builder
-	// search for a new location for the building
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
-		bool SpawnNewBilderLocation;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Heroes")
-		bool SpawnNewHeroesLocation;
+	 
 
 
 	// trace
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
-		float ZCamera;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
-		float  ZCursor;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
-		float  XCamera;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
-		float  XEnd;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
-		float  proc;
+ 
 
 	// choosen heroes
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
@@ -272,15 +252,12 @@ public:
 //	void SetNewBuilder();
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
-		bool  MouseSelectedHUD;
-	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
-		//  Making HUD change available
-		// HUD makes available a change
-		bool  NotChangeHud;
-
+		bool  MouseSelectedHUD = true;
+	////UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite) 
+	//	bool NotChangeHud;
 
 	UPROPERTY(EditAnywhere, Category = "Bilder", BlueprintReadWrite)
-		FString BilderName;
+		FString BilderName = "None";
 
 	UPROPERTY(EditAnywhere, Category = "Bilder", BlueprintReadWrite)
 		bool  CreateBilder;
@@ -290,11 +267,11 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bilder")
-		bool BuilderBarrakActive;
+		bool BuilderBarrakActive = false;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Island")
-		bool GetIslandAbordage;
+		bool GetIslandAbordage = false;
 
  
 	UFUNCTION(BlueprintCallable, Category = "Bot AI")
@@ -304,13 +281,7 @@ public:
 
 
 	void CursorOverOut();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
-		FVector PatrolLocationStart;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
-		FVector PatrolLocationEnd;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
-		bool isPatrol;
+	 
 
 
 
@@ -346,12 +317,8 @@ public:
 		bool BuildStractionName(int32 iBuildName);
 
 	 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
-		bool BuildViewportCanvas;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
-		int32 iBuildStrange;
+	 
+	 
 
 	TArray<int*> Point;
  
@@ -361,9 +328,7 @@ public:
 	FVector GetPointCursor();
 
 	void BattleDetectStart();
-	void BattleDetectStop();
-	bool bBattleVector;
-	bool bBattleCursor;
+	void BattleDetectStop(); 
 
 	void SetNewLocationBuilder();
 	//void SetNewLocationHeroes();
@@ -372,15 +337,66 @@ public:
 
 
 	bool BuildBreak();
-	bool HeroesBreak();
-	bool youCanBuildDrone;
+	bool HeroesBreak(); 
 
 	void SpawnCursorPoint();
 private:
 	void __MouseClickMoveChar(ABaseCharacter* ObjCharacter);
 	void ClearVar();
-	bool Production;
+	bool Production = true;
 
+	//  Making HUD change available
+	// HUD makes available a change
+	bool  NotChangeHud = true;
+
+	bool youCanBuildDrone = false;
+
+	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
+	float ZCamera = 52.f;
+	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
+	float  ZCursor = 2000.f;
+	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
+	float  XCamera = -10.f;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
+	float  XEnd = 560.f;
+	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "trace")
+	float  proc = -62;
 	//	void SpawnCursorPoint(); 
-	
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
+	int32 iBuildStrange = 0;
+
+
+	//FSinCos SinCos;
+	float DistanceRangePoint = 300.f;
+
+	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
+	bool BuildViewportCanvas = false;
+
+	// search new location for builder
+	// search for a new location for the building
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
+		bool SpawnNewBilderLocation = false;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Heroes")
+		bool SpawnNewHeroesLocation = false;
+
+
+
+
+	bool bBattleVector = false;
+	bool bBattleCursor = false;
+
+
+//
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
+		FVector PatrolLocationStart;
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
+		FVector PatrolLocationEnd;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Patrol")
+		bool isPatrol = false;
+		bool bEnableMouseOverEvents = true;
+		bool bShowMouseCursor = true; 
+
+
+		bool SpawnDrone = false;
 };

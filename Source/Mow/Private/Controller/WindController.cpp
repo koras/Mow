@@ -5,6 +5,11 @@ AWindController::AWindController()
 {
 	//whether the right mouse button is clamped
 	bPressRightMouseKey = false;
+
+	 bBattleVector = false;
+
+	// You can build a building or not, when choosing.
+	 bWindYouCanBuild = false;
 }
 
 void AWindController::BeginPlay()
@@ -85,6 +90,8 @@ void AWindController::SetActorLocationHeroes()
 
 void AWindController::LeftMouseStart() {
 
+	UE_LOG(LogTemp, Warning, TEXT("LeftMouseStart"));
+
 	UE_LOG(LogTemp, Warning, TEXT("LeftMouseStart 1"));
 	if (Charac.Num() == 1) {
 		if (Charac[0]->tpm_IsLand)
@@ -97,23 +104,35 @@ void AWindController::LeftMouseStart() {
 	UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart ==== start ======EventUnit  %d"), iStateController);
 	if (bBattleVector)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("bBattleVector true") );
 		bBattleCursor = true;
 		// Prohibited any action
 		return;
 	}
+	else {
+
+			UE_LOG(LogTemp, Warning, TEXT("bBattleVector false")); 
+		}
 
 	BuildViewportCanvas = false;
 
+	UE_LOG(LogTemp, Warning, TEXT("NotChangeHud 1  %d"), NotChangeHud);
 	//Do not turn off HUD
 	if (NotChangeHud) {
 		GetAllMyHero();
+		UE_LOG(LogTemp, Warning, TEXT("NotChangeHud 2  %d"), NotChangeHud);
 
 		isPatrol = false;
 		// Selecter mouse character 
 		switch (iStateController) {
 		case 0:
 		{
+			UE_LOG(LogTemp, Warning, TEXT("iStateController %f"), iStateController);
+
+			 
 			if (!bWindYouCanBuild) {
+				UE_LOG(LogTemp, Warning, TEXT("iStateController--- %f"), iStateController);
+
 				UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart() log case 1 "));
 				// selection of heroes on the map
 				if (Charac.Num() == 1) {
@@ -205,12 +224,13 @@ void AWindController::LeftMouseStart() {
 	else {
 		// click on the button
 		LogicAI();
-		//	UE_LOG(LogTemp, Warning, TEXT(" AWindController::LeftMouseStart NotChangeHud false"));
+		 	UE_LOG(LogTemp, Warning, TEXT(" AWindController::LeftMouseStart NotChangeHud false"));
 	}
 	//Boarding
 
 	UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart ==== end  ======EventUnit  %d"), iStateController);
 }
+
 void AWindController::LeftMouseStop() {
 	UE_LOG(LogTemp, Warning, TEXT("LeftMouseStop 2 "));
 	bBattleCursor = false;
@@ -331,9 +351,63 @@ void AWindController::SortCharacter()
 void AWindController::RightActionStop() {
 	UE_LOG(LogTemp, Warning, TEXT("RightActionStop 4"));
 }
-void AWindController::BattleDetectStart() {}
-void AWindController::BattleDetectStop() {}
-void AWindController::ChoiceBuildingPoint() {}
+void AWindController::BattleDetectStart() {
+	//	UE_LOG(LogTemp, Warning, TEXT("BattleDetectStart"));
+	// bBattleVector;
+	bBattleVector = true;
+
+}
+
+void AWindController::BattleDetectStop() {
+	//	UE_LOG(LogTemp, Warning, TEXT("BattleDetectStop"));
+	bBattleVector = false;
+}
+void AWindController::ChoiceBuildingPoint() {
+	FVector SpawnLocation = FVector(FMath::FRand() *158.f, FMath::FRand() * 158.f, 0.f);
+	FRotator  SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	SpawnParams.Instigator = Instigator;
+
+	switch (iBuildStrange)
+	{
+	case 1:
+	{
+	//	iMeshBuilder = GetWorld()->SpawnActor<AVerf>(SpawnLocation, SpawnRotation, SpawnParams);
+		break;
+	}
+	case 2:
+	{
+	//	iMeshBuilder = GetWorld()->SpawnActor<AMainBuilding>(SpawnLocation, SpawnRotation, SpawnParams);
+		break;
+	}
+	case 3:
+	{
+		//	UE_LOG(LogTemp, Warning, TEXT("void AWindController::ChoiceBuildingPoint() iBaseCharacterSpawn = true;"));
+	//	iBaseCharacterSpawn = GetWorld()->SpawnActor<ARsourceDroneH>(SpawnLocation, SpawnRotation, SpawnParams);
+	//	iBaseCharacterSpawn->ChangeColorReserved();
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
+
+	if (iMeshBuilder) {
+		iStateController = 4;
+		SpawnNewBilderLocation = true;
+		//	UE_LOG(LogTemp, Warning, TEXT("SpawnNewBilderLocation = true;"));
+	}
+
+	if (iBaseCharacterSpawn)
+	{
+		iStateController = 6;
+		SpawnNewHeroesLocation = true;
+		//	UE_LOG(LogTemp, Warning, TEXT("SpawnNewHeroesLocation = true;"));
+	}
+	//	}
+}
 
 
 
@@ -441,17 +515,32 @@ void AWindController::SelectedBuilder() {
 	}
 }
 void AWindController::ClearVar() {}
-void AWindController::RightActionMouseIsland() {}
+void AWindController::RightActionMouseIsland() {
+	for (TActorIterator<ABaseLand> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ABaseLand *Island = *ActorItr;
+		if (Island && Island->ChoosenIslandCursor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouseIsland() "));
+			Island->SetHero();
+		}
+	}
+
+}
 void AWindController::GetBoxMouseCursor() {
 	// work uilder
 	if (!BuilderBarrakActive)
 	{
+
+		//UE_LOG(LogTemp, Warning, TEXT("BuilderBarrakActive 11 "));
 		//Do not turn off HUD
 		if (NotChangeHud) {
+			UE_LOG(LogTemp, Warning, TEXT("NotChangeHud 33  "));
 			// selected actor
 			if (bPressRightMouseKey)
 			{
 
+				UE_LOG(LogTemp, Warning, TEXT("bPressRightMouseKey 44443  "));
 				FHitResult HitResult;
 				GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
 				BoxFinish = HitResult.Location;
@@ -652,7 +741,59 @@ void AWindController::CursorOverOut() {
 
 void   AWindController::CobeShip() {}
 
-void AWindController::SetNewLocationBuilderAbordage() {}
+void AWindController::SetNewLocationBuilderAbordage() {
+
+	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage()"));
+	if (Charac.Num() == 1) {
+		//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage() 1"));
+		if (Charac[0]->MyHero == true)
+		{
+			//		UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage() 2"));
+
+			if (Charac[0]->IsLand)
+			{
+				//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage 3"));
+
+
+				if (!Charac[0]->IsLand->Abordage)
+					//	UE_LOG(LogTemp, Warning, TEXT("Charac[0]->IsLand->Abordage"));
+
+
+
+
+					if (!Charac[0]->IsLand->AbordageIsland) {
+						//	UE_LOG(LogTemp, Warning, TEXT("Charac[0]->IsLand->AbordageIsland nothing is built on the island its boarding"));
+					}
+				if (Charac[0]->bIsAbordage) {
+					// If the hero drags the island to the boarding, then it must be removed
+					//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBilderAbordage 5.1"));
+					Charac[0]->RemovingIslandAbordage();
+				}
+				//	UE_LOG(LogTemp, Warning, TEXT("7 This a testing statement. %s"), *Charac[0]->IsLand->GetName());
+				if (Charac[0]->IsLand->StatusBuildung == 0)
+				{
+
+
+					//	UE_LOG(LogTemp, Warning, TEXT("8 This a testing statement. %s"), *Charac[0]->IsLand->GetName());
+					//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBilderAbordage 5"));
+					// Making HUD change available
+					//	Charac[0]->IsLand->StatusBuildung = 1;
+					NotChangeHud = true;
+					Charac[0]->SelectEraseToBoarding = true;
+					// Unlock button
+					Charac[0]->HUDabordage = true;
+					// Remove the island from the cursor
+					// attach to the island.
+					SetNewLocationBuilder();
+					//	UE_LOG(LogTemp, Warning, TEXT("9 This a testing statement. %s"), *Charac[0]->IsLand->GetName());
+				}
+				else {
+					//	UE_LOG(LogTemp, Warning, TEXT("There is no island or there is boarding or the island cannot be boarding"));
+				}
+			}
+		}
+	}
+}
 
 FVector AWindController::GetPointCursor() {
 	FHitResult HitResult;

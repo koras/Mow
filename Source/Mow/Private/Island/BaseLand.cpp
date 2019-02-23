@@ -31,3 +31,9 @@ void ABaseLand::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+
+
+void ABaseLand::SetHero()
+{
+
+}

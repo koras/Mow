@@ -29,8 +29,20 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+	bool ChoosenIslandCursor = false;
+
+	bool AbordageIsland = true;
+	bool Abordage = false;
+
 	bool MyBuild;
-	 
+
+	FName const BONE_TMP = "Bone";
+	float const massMove = 12.f;
+	float const massStop = 100000000.f;
+
+	void SetHero();
+	FColor color = FColor(255, 0, 0);
+
 	ABaseBuilding * Builder;
 
 	/** 
