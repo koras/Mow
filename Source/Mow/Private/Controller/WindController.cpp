@@ -531,23 +531,25 @@ void AWindController::GetBoxMouseCursor() {
 	// work uilder
 	if (!BuilderBarrakActive)
 	{
-
-		//UE_LOG(LogTemp, Warning, TEXT("BuilderBarrakActive 11 "));
+		 
 		//Do not turn off HUD
-		if (NotChangeHud) {
-			UE_LOG(LogTemp, Warning, TEXT("NotChangeHud 33  "));
+		if (NotChangeHud) { 
 			// selected actor
 			if (bPressRightMouseKey)
 			{
 
-				UE_LOG(LogTemp, Warning, TEXT("bPressRightMouseKey 44443  "));
+			//	UE_LOG(LogTemp, Warning, TEXT("bPressRightMouseKey 44443  "));
 				FHitResult HitResult;
-				GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+				//	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+				GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+				 
 				BoxFinish = HitResult.Location;
 				BoxDown.X = BoxFinish.X;
 				BoxDown.Y = BoxFinish.Y;
 				BoxRight.X = BoxFinish.X;
 				BoxLeft.Y = BoxFinish.Y;
+
+				UE_LOG(LogTemp, Warning, TEXT("BoxDown %f %f  %f %f   "), BoxDown.X, BoxDown.Y, BoxRight.Y, BoxLeft.Y);
 
 				const EDrawDebugTrace::Type DrawDebugType = EDrawDebugTrace::None;
 				if (Production)

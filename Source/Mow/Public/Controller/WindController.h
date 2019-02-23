@@ -137,8 +137,8 @@ public:
 	bool traceGarbage(FVector Start);
 	// To determine whether a key is pressed
 
-	UPROPERTY(EditAnywhere, Category = "", BlueprintReadWrite)
-		bool bPressRightMouseKey = false;
+//	UPROPERTY(EditAnywhere, Category = "", BlueprintReadWrite)
+	 
 
 	// You can build a building or not, when choosing.
 	bool bWindYouCanBuild = false;
@@ -202,7 +202,7 @@ public:
 	FVector BoxLeft;
 	//  the height at which the drawn box
 
-	const float MouseZ = 150.0f;
+	const float MouseZ = 50.0f;
 	// camera move location
 
 
@@ -396,7 +396,6 @@ private:
 		bool isPatrol = false;
 		bool bEnableMouseOverEvents = true;
 		bool bShowMouseCursor = true; 
-
-
+		bool bPressRightMouseKey = false;
 		bool SpawnDrone = false;
 };
