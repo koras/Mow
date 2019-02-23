@@ -28,7 +28,6 @@ AManagerCamera::AManagerCamera()
 	 
 	OurVisibleComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 
-
 //	static ConstructorHelpers::FObjectFinder <UStaticMesh>StaticMesh(TEXT("StaticMesh'/Game/Platform/Platform.Platform'"));
  
 
@@ -68,15 +67,15 @@ void AManagerCamera::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void AManagerCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AManagerCamera::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::SetupPlayerInputComponent(InputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AManagerCamera::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AManagerCamera::MoveRight);
-	PlayerInputComponent->BindAxis("MiddleRoller", this, &AManagerCamera::MiddleRollerFunc);
-	PlayerInputComponent->BindAction("MiddleMouse", IE_Pressed, this, &AManagerCamera::MiddleMouseStart);
-	PlayerInputComponent->BindAction("MiddleMouse", IE_Released, this, &AManagerCamera::MiddleMouseStop);
+	InputComponent->BindAxis("MoveForward", this, &AManagerCamera::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &AManagerCamera::MoveRight);
+	InputComponent->BindAxis("MiddleRoller", this, &AManagerCamera::MiddleRollerFunc);
+	InputComponent->BindAction("MiddleMouse", IE_Pressed, this, &AManagerCamera::MiddleMouseStart);
+	InputComponent->BindAction("MiddleMouse", IE_Released, this, &AManagerCamera::MiddleMouseStop);
 }
 
 
@@ -105,7 +104,7 @@ void AManagerCamera::CameraMoveXY(float DeltaTime)
 	if (!CurrentVelocity.IsZero())
 	{ 
 		FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
-		UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::CameraMoveXY11  %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
+	//	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::CameraMoveXY11  %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
 		NewLocationCameraTick(NewLocation);
 	}else{
 
@@ -137,7 +136,7 @@ void AManagerCamera::MiddleMouseStart()
 	controller->GetHitResultUnderCursor(ECC_Pawn, true, HitResult);
 	CameraMoveStart = HitResult.Location;
 	 
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStart  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStart  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 
 //	UE_LOG(LogTemp, Warning, TEXT(" CameraMoveStart %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 //	UE_LOG(LogTemp, Warning, TEXT(" HitResult %s"), *HitResult.GetActor()->GetName());
@@ -148,7 +147,7 @@ void AManagerCamera::MiddleMouseStart()
 void AManagerCamera::MiddleMouseStop()
 {
 	CameraMove = false;
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::MiddleMouseStop  %f   %f  %f"), CameraMoveStart.X, CameraMoveStart.Y, CameraMoveStart.Z);
 }
 
 
@@ -167,6 +166,8 @@ void AManagerCamera::MoveToLocationCamera() {
 		NewLocationCameraTick(CameraMoveCalc);
 	}
 	
+
+//	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::CameraMoveXY11  %f   %f  %f"));
 }
 
 void AManagerCamera::traceCamera(FVector Start) {
@@ -214,6 +215,6 @@ void AManagerCamera::NewLocationCameraTick(FVector NewLocation)
 	NewLocation.Y = FMath::Clamp(NewLocation.Y, CameraFixSpringArm.Min.Y, CameraFixSpringArm.Max.Y);
 	NewLocation.X = FMath::Clamp(NewLocation.X, CameraFixSpringArm.Min.X, CameraFixSpringArm.Max.X);
 
-	UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::NewLocationCameraTick NewLocation %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("AManagerCamera::NewLocationCameraTick NewLocation %f   %f  %f"), NewLocation.X, NewLocation.Y, NewLocation.Z);
 	SetActorLocation(NewLocation);
 }

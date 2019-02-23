@@ -2,16 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Mow.h" 
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
-
 #include "Runtime/Engine/Public/EngineUtils.h"
 #include "BaseCharacter.h" 
+#include "BaseBuilding.h"
+
 #include "WindController.generated.h"
-
-
 USTRUCT()
 struct FCharacterMove
 {
@@ -73,8 +72,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BilderStuct")
 		TArray<FBilderName>  BilderArrayName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
-		ABaseBuilding * BuildController;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 		TArray<AMotionLand*> MotionLand;
 
@@ -85,11 +82,15 @@ public:
 	AStrategyBuilding *BaseBilder;
 	AManagement* Camera;ightActionSto
 	// tMouseSto
-	AStrategyBuilding * SpawnBilder;
-	ABaseBuilding * iMeshBuilder;
+	AStrategyBuilding * SpawnBilder; 
 	AIslandSingle * Island;
 	*/
 
+	ABaseBuilding * iMeshBuilder;
+	ABaseLand * SingleLand;
+	ABaseLand * tmp_SingleLand;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Build")
+		ABaseBuilding * BuildController;
 
 	virtual void BeginPlay() override;
 	virtual void PlayerTick(float DeltaTime) override;
@@ -100,7 +101,7 @@ public:
 	void LeftMouseStop();
 
 
-
+ 
 	void RightActionMouse();
 	void RightActionStop();
 
@@ -117,6 +118,7 @@ public:
 	int32 iStateController;
 
 	bool test;
+	bool test2;
 
 
  

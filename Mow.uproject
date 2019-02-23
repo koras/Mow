@@ -13,10 +13,20 @@
 			]
 		}
 	],
+	"Plugins": [
+		{
+			"Name": "SoundVisualizations",
+			"Enabled": true
+		},
+		{
+			"Name": "CodeView",
+			"Enabled": true
+		}
+	],
 	"TargetPlatforms": [
-		"AllDesktop",
 		"LinuxNoEditor",
 		"MacNoEditor",
-		"WindowsNoEditor"
+		"WindowsNoEditor",
+		"AllDesktop"
 	]
 }

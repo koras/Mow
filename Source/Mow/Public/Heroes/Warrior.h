@@ -2,8 +2,9 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "CoreMinimal.h" 
 #include "Heroes/BaseCharacter.h"
+#include "ConstructorHelpers.h"
 #include "Warrior.generated.h"
 
 /**

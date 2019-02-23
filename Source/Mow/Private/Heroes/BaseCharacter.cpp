@@ -11,9 +11,6 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	Attributes = CreateDefaultSubobject<UAttributesComponent>(TEXT("Attribute"));
 	PrimaryActorTick.bCanEverTick = true;
 
-
-	 
- 
 	//static ConstructorHelpers::FObjectFinder<UBlendSpace1D>  BS(TEXT("BlendSpace1D'/Game/Heroes/WorkerH/anim/idle/worker_anim_Skeleton_BlendSpace1D2.worker_anim_Skeleton_BlendSpace1D2'"));
 	//check(BS.Object);
 	//static ConstructorHelpers::FObjectFinder <UStaticMesh>cubeStandart(TEXT("StaticMesh'/Game/Primitive/mash/cubeStandart.cubeStandart'"));
@@ -287,3 +284,56 @@ void ABaseCharacter::BreakCommand()
 	//	PlayerAI->BreakAI();
 //	}
 }
+
+
+
+
+void ABaseCharacter::Server_PatrolToTepeat_Implementation(FVector ControllerLocation)
+//void ABaseCharacter::Server_PatrolToTepeat(FVector ControllerLocation)
+{
+/* 
+	//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::Server_PatrolToTepeat_Implementation"));
+	if (!PlayerAI)
+	{
+		PlayerAI = Cast<ABaseAIController>(GetController());
+	}
+
+	if (PlayerAI)
+	{
+		PlayerAI->SendPatrolTo(WeaponMesh, this, ControllerLocation);
+		//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI true Patrol %f %f"), ControllerLocation.X, ControllerLocation.Y);
+	}
+	else {
+		//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI false Patrol"));
+	}
+	*/
+}
+bool ABaseCharacter::Server_PatrolToTepeat_Validate(FVector ControllerLocation)
+{
+	return true;
+}
+
+
+/**
+* Hero get information on building construction 
+*/
+void ABaseCharacter::FollowTheIslandFunction()
+{
+	if (IsLand)
+	{
+		FollowTheActor = true;
+	}
+}
+
+
+
+void ABaseCharacter::ChangeColorGood() {}
+void ABaseCharacter::ChangeColorWarning() {}
+void ABaseCharacter::ChangeColorDefault() {}
+void ABaseCharacter::ChangeColorReserved() {}
+void ABaseCharacter::ChangeColorReservedGood() {}
+
+void ABaseCharacter::ClickCharacter() {}
+void ABaseCharacter::BuildCharacter() {}
+
+void ABaseCharacter::WhobuildsBuilding() {}

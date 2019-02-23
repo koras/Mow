@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Platform/PlatformCamera.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Engine/World.h"
 
 

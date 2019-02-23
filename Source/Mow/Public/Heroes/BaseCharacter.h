@@ -1,31 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "Mow.h"
 
-#include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Components/SphereComponent.h"
+
+#include "Components/SphereComponent.h" 
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
- 
-#include "ConstructorHelpers.h"
 #include "Components/AudioComponent.h"
+#include "Components/AttributesComponent.h"
+#include "ConstructorHelpers.h" 
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
 
-#include "Components/AttributesComponent.h"
-//#include "AttributesComponent.h"
+#include "Island/BaseLand.h"
 
-#include "ConstructorHelpers.h"
 #include "BaseCharacter.generated.h" 
 
 
-
-
-
-/**
-* create character hud tile
-*/
 
 USTRUCT()
 struct FCharacterTile
@@ -49,13 +42,13 @@ struct FCharacterTile
 
 	FCharacterTile()
 	{
-	//	static ConstructorHelpers::FObjectFinder<UTexture2D> ButtonBack(TEXT("/Game/HUD/Texture/Texture_red_yellow.Texture_red_yellow"));
-	//	static ConstructorHelpers::FObjectFinder<UTexture2D> EnemyTeamHPObj(TEXT("/Game/HUD/Texture/blue.blue"));
+		//	static ConstructorHelpers::FObjectFinder<UTexture2D> ButtonBack(TEXT("/Game/HUD/Texture/Texture_red_yellow.Texture_red_yellow"));
+		//	static ConstructorHelpers::FObjectFinder<UTexture2D> EnemyTeamHPObj(TEXT("/Game/HUD/Texture/blue.blue"));
 		number = 1;
 		toolTip = "";
 		ButtonType = "";
-	//	TexturePressed = ButtonBack.Object;
-	//	TextureReleased = EnemyTeamHPObj.Object;
+		//	TexturePressed = ButtonBack.Object;
+		//	TextureReleased = EnemyTeamHPObj.Object;
 		minX = 0;
 		maxX = 50;
 		minY = 0;
@@ -77,7 +70,7 @@ public:
 	// Sets default values for this pawn's properties
 	//ABaseCharacter();
 
-
+	bool test1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
 		UAttributesComponent *Attributes;
 
@@ -87,17 +80,15 @@ public:
 		UStaticMeshComponent * WeaponMeshClick;
 
 
-	 
+
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
 		int32 ClanChar;
 	/*
-	* Идём к острову для того чтобы взять остров
 	* We go to the island to take the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
 		bool GoBehindTheIsland;
-	/*
-	* Идём к острову для того чтобы взять остров
+	/*в
 	* We go to the island to take the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
@@ -123,18 +114,27 @@ public:
 		USkeletalMeshComponent *IslandSkeletalMeshMesh;
 
 
- 
+	/*my hero or foe*/
+	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
+		bool MyHero;
+
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
 		FString NameCurrentHeroes;
 
+	void BreakCommand();
 
 	//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentDead;
 		//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		//	UAudioComponent* AudioComponentCannon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
+		bool bBattleSelectedCursor;
 
+
+	UPROPERTY(EditAnywhere, Category = "Controller", BlueprintReadWrite)
+		bool MouseEvent;
 
 
 	//	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
@@ -153,8 +153,6 @@ protected:
 	UFUNCTION(Category = Default)
 		void CursorOut(UPrimitiveComponent* pComponent);
 
-	UPROPERTY(EditAnywhere, Category = "Controller", BlueprintReadWrite)
-		bool MouseEvent;
 	// Уровень бога
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "God")
 		bool iGod;
@@ -163,11 +161,30 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		UAudioComponent* AudioComponentCannon;
 
-
 	float  TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)  override;
 
+
+	UMaterialInterface * StoredMaterial;
+
+ 
 public:
-	// Called every frame
+
+	/* PATROL
+	* Server
+	*/
+	UFUNCTION(Server, Reliable, WithValidation)
+		void Server_PatrolToTepeat(FVector ControllerLocation);
+
+
+	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
+		ABaseLand* tpm_IsLand;
+
+	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
+		ABaseLand* IsLand;
+
+	UPROPERTY(Replicated, EditAnywhere, Category = "Build")
+		bool bCanBuildIsland;
+
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
@@ -188,22 +205,19 @@ public:
 		FString HeroesName();
 	UFUNCTION(BlueprintCallable, Category = "Island boarding")
 		void RemovingIslandAbordage();
- 
+
 	//UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Anims")
 	//	UBlendSpace1D *BlendSpace;
 
 	//UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Anims")
 	//	UBlendSpace *BS;
 	// property
- 
+
 
 
 
 	void AddTimeHealth();
-	/** Занят ли герой или свободен
-	* Занят может быть если получил команду от игрока, например движение.
-	* Не занят, просто стоит на месте
-	*/
+
 	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
 		bool bBusy;
 	UFUNCTION(BlueprintCallable, Category = "move")
@@ -219,8 +233,32 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
 		bool HUDabordage;
 
+	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
+		bool bIsAbordage;
 
 	//void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
+
+	/*my hero or foe*/
+	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
+		int32 HeroFraction;
+
+
+	void FollowTheIslandFunction();
+
+
+	UPROPERTY(EditAnywhere, Category = "Health", BlueprintReadWrite)
+		bool FollowTheActor;
+
+
+	virtual void ChangeColorGood();
+	virtual void ChangeColorWarning();
+	virtual void ChangeColorDefault();
+	virtual void ChangeColorReserved();
+	virtual void ChangeColorReservedGood();
+	virtual void BuildCharacter();
+	virtual void WhobuildsBuilding();
+	virtual void ClickCharacter();
+	bool bBuild;
 
 private:
 
@@ -234,7 +272,7 @@ private:
 	void SpawnGarbage();
 	void IslandSearch();
 
-	FVector vTmp;
+	FVector vTmp;  
 	void HealthComputation();
 
 	FVector fvbDroneFVector; /** местоположение дрона */
@@ -242,8 +280,11 @@ private:
 	bool bGoInDrone;
 
 	void GoBuildDrone(); /** tick */
+	 
 
-
+	 
+	 
+	 
 };
 
 

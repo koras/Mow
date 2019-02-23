@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "BaseLand.generated.h"
+#include "Building/BaseBuilding.h"
+
+#include "BaseLand.generated.h" 
 
 UCLASS()
 class MOW_API ABaseLand : public APawn
@@ -26,4 +28,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	bool MyBuild;
+	 
+	ABaseBuilding * Builder;
+
+	/** 
+	* Status of the island in front of the building construction
+	* 0 -  // Nothing on the island, you can build on it
+	* 1-    // Island zarezirvirovan under building
+	* 2 -   // On the island there is a building
+	* 3 -   // on the island built building opponent
+	* 4 -   // on the island can not be built
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buildung")
+		bool StatusBuildung;
 };

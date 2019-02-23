@@ -31,3 +31,19 @@ void ABaseBuilding::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 }
 
+/**
+*We subtract the cost of construction
+*/
+void ABaseBuilding::StartSpawn()
+{
+//	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGameWorldSettings::StaticClass(), TestCubeActorArray);
+	//AGameWorldSettings* WorldSettings = Cast<AGameWorldSettings>(TestCubeActorArray[0]);
+	//	UE_LOG(LogTemp, Warning, TEXT("We have written off the money 1"));
+//	if (TestCubeActorArray[0]) {
+//		WorldSettings->SubtractionGold(CostHome_1lvl);
+//	}
+}
+
+void ABaseBuilding::DeadActor()
+{
+}

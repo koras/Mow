@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ConstructorHelpers.h"
 #include "Heroes/BaseCharacter.h"
 #include "Worker.generated.h"
 
