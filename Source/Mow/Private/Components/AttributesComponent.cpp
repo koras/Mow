@@ -84,4 +84,3 @@ void UAttributesComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty 
 //	DOREPLIFETIME(ABaseCharacter, CharacterMove);
 //	DOREPLIFETIME(ABaseCharacter, BaseCharLocation);
 }
-

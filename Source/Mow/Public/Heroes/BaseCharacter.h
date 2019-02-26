@@ -219,7 +219,7 @@ public:
 
 
 
-	void AddTimeHealth();
+	//void AddTimeHealth();
 
 	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
 		bool bBusy;

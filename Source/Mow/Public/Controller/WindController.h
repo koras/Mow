@@ -202,7 +202,7 @@ public:
 	FVector BoxLeft;
 	//  the height at which the drawn box
 
-	const float MouseZ = 50.0f;
+	const float MouseZ = 150.0f;
 	// camera move location
 
 

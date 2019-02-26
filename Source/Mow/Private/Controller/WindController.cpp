@@ -549,7 +549,7 @@ void AWindController::GetBoxMouseCursor() {
 				BoxRight.X = BoxFinish.X;
 				BoxLeft.Y = BoxFinish.Y;
 
-				UE_LOG(LogTemp, Warning, TEXT("BoxDown %f %f  %f %f   "), BoxDown.X, BoxDown.Y, BoxRight.Y, BoxLeft.Y);
+			//	UE_LOG(LogTemp, Warning, TEXT("BoxDown %f %f  %f %f   "), BoxDown.X, BoxDown.Y, BoxRight.Y, BoxLeft.Y);
 
 				const EDrawDebugTrace::Type DrawDebugType = EDrawDebugTrace::None;
 				if (Production)
@@ -593,6 +593,7 @@ void AWindController::GetBoxMouseCursor() {
 								ABaseCharacter *  BaseCharacter_tmp = Cast<ABaseCharacter>(Charac[s]);
 								if (BaseCharacter_tmp)
 								{
+									UE_LOG(LogTemp, Warning, TEXT("Charac.Num() %f"), Charac.Num());
 									BaseCharacter_tmp->bBattleSelectedCursor = false;
 								}
 							}
