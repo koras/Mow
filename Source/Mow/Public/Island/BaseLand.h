@@ -17,11 +17,9 @@ public:
 	// Sets default values for this pawn's properties
 	ABaseLand();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
+		UAttributesComponent * Attributes;
+ 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -43,4 +41,9 @@ public:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buildung")
 		bool StatusBuildung;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 };

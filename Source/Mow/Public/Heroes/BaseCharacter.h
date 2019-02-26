@@ -10,9 +10,11 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/AttributesComponent.h"
+
 #include "ConstructorHelpers.h" 
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
+#include "Runtime/Engine/Public/EngineUtils.h"
 
 #include "Island/BaseLand.h"
 
@@ -72,7 +74,7 @@ public:
 
 	bool test1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
-		UAttributesComponent *Attributes;
+		UAttributesComponent * Attributes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		UStaticMeshComponent * WeaponMesh;
@@ -168,6 +170,7 @@ protected:
 
  
 public:
+	
 
 	/* PATROL
 	* Server
@@ -199,10 +202,10 @@ public:
 
 
 
-	UFUNCTION(BlueprintCallable, Category = "WidgetVariables")
-		int32 GetScore();
-	UFUNCTION(BlueprintCallable, Category = "WidgetVariables")
-		FString HeroesName();
+	//UFUNCTION(BlueprintCallable, Category = "WidgetVariables")
+	//	int32 GetScore();
+	//UFUNCTION(BlueprintCallable, Category = "WidgetVariables")
+	//	FString HeroesName();
 	UFUNCTION(BlueprintCallable, Category = "Island boarding")
 		void RemovingIslandAbordage();
 
@@ -258,6 +261,10 @@ public:
 	virtual void BuildCharacter();
 	virtual void WhobuildsBuilding();
 	virtual void ClickCharacter();
+
+	virtual void FireActive();
+	virtual void FireDeActive();
+
 	bool bBuild;
 
 private:
@@ -281,6 +288,10 @@ private:
 
 	void GoBuildDrone(); /** tick */
 	 
+	 
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particle")
+		UParticleSystemComponent* ParticleEffectFire;
 
 	 
 	 

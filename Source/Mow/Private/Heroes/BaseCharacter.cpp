@@ -46,7 +46,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// FOR COLLISION
 	proxSphere = CreateDefaultSubobject<USphereComponent>( TEXT("Sphere"));
-	//proxSphere->AttachTo(RootComponent);
+	proxSphere->AttachTo(RootComponent);
 	proxSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	proxSphere->SetSphereRadius(80.f);// old 40
 	proxSphere->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
@@ -55,7 +55,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// IslandSkeletalMeshMesh
 	IslandSkeletalMeshMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("IslandSkeletalMeshMesh"));
-	//IslandSkeletalMeshMesh->AttachTo(RootComponent);
+	IslandSkeletalMeshMesh->AttachTo(RootComponent);
 	IslandSkeletalMeshMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); 
 	IslandSkeletalMeshMesh->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
 //	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
@@ -199,8 +199,6 @@ void ABaseCharacter::DeadActor()
 
 void ABaseCharacter::RemovingIslandAbordage() {
 	if (Attributes->bIsAbordage) {
-
-
 		if (ConstraintComp)
 		{
 			ConstraintComp->RemoveFromRoot();
@@ -215,8 +213,6 @@ void ABaseCharacter::RemovingIslandAbordage() {
 
 			//	IsLand->BreackAbordage();
 			//IsLand->bHeroes_Island = false;
-
-
 			bBusy = false;
 
 			SetNewLocation(GetActorLocation() + GetActorForwardVector()*300.f);
@@ -250,7 +246,7 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 }
 
 
-
+/*
 
 int32 ABaseCharacter::GetScore()
 {
@@ -260,7 +256,7 @@ FString ABaseCharacter::HeroesName()
 {
 	return NameCurrentHeroes;
 }
-
+*/
 
 
 ////void ABaseCharacter::AddTimeHealth()
@@ -337,3 +333,59 @@ void ABaseCharacter::ClickCharacter() {}
 void ABaseCharacter::BuildCharacter() {}
 
 void ABaseCharacter::WhobuildsBuilding() {}
+
+void ABaseCharacter::HealthComputation()
+{
+	const int32 GoFire = 45; 
+	//float procent = CharacterCurrentHealth / (CharacterMaxHealth / 100);
+	////	UE_LOG(LogTemp, Warning, TEXT("Fire: %f %f %f"), CharacterMaxHealth, procent, CharacterCurrentHealth);
+
+	if(Attributes->GetCurrentProcent() < GoFire)
+		{
+		FireActive();
+	}
+	else
+	{
+		FireDeActive();
+	}
+}
+
+
+void ABaseCharacter::FireActive()
+{
+	//	UE_LOG(LogTemp, Warning, TEXT("AWarrior::FireActive()"));
+	if (ParticleEffectFire)
+	{
+		//	UE_LOG(LogTemp, Warning, TEXT("AWarrior::FireActive() 2"));
+	//	ParticleEffectFire->Deactivate();
+	//	ParticleEffectFire->Activate();
+	}
+}
+
+void ABaseCharacter::FireDeActive()
+{
+	if (ParticleEffectFire)
+	{
+	//	//	UE_LOG(LogTemp, Warning, TEXT("AWarrior::FireDeActive() 2"));
+	//	ParticleEffectFire->Deactivate();
+	}
+}
+
+
+/**
+* For demo
+*/
+
+void ABaseCharacter::IslandSearch()
+{
+	for (TActorIterator<ABaseLand> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ABaseLand *Island = *ActorItr;
+		if (Island->Attributes->GetFraction() == this->Attributes->GetFraction())
+		{
+			FVector IslandLoc = Island->GetActorLocation();
+			SetNewLocation(IslandLoc);
+			return;
+		}
+	}
+}

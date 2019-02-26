@@ -5,6 +5,8 @@
 // Sets default values for this component's properties
 UAttributesComponent::UAttributesComponent()
 {
+	CharacterAddHealth = 4.f;
+
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
@@ -26,7 +28,7 @@ void UAttributesComponent::BeginPlay()
 void UAttributesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	AddTimeHealth();
 	// ...
 }
 
@@ -47,7 +49,23 @@ float UAttributesComponent::GetManna() {
 float UAttributesComponent::GetMaxManna() {
 	return CharacterMaxManna;
 }
+ 
 
+float UAttributesComponent::GetCurrentProcent() {
+	return CharacterCurrentHealth / (CharacterMaxHealth / 100);
+}
+float UAttributesComponent::GetFraction() {
+	return fraction;
+}
+
+void UAttributesComponent::SetFraction(float tmpfraction) {
+	  fraction = tmpfraction;
+} 
+
+void UAttributesComponent::AddTimeHealth()
+{
+	SetHealth(CharacterAddHealth);
+}
 
 void UAttributesComponent::SetHealth(float Healt) {
 	CharacterCurrentHealth += Healt;
