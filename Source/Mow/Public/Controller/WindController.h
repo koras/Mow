@@ -304,9 +304,10 @@ public:
 	void SetNewLocationBuilderAbordage();
 
 
-	TArray<FCharacterMove> AWindController::SortCharacter(TArray<FCharacterMove> TArCharacterStructure);
+	void  AWindController::SortCharacter(TArray<ABaseCharacter*> tmpCharacter);
+	//TArray<FCharacterMove> AWindController::SortCharacter(TArray<FCharacterMove> TArCharacterStructure);
 
-	void SortCharacter();
+//	void SortCharacter();
 	//	void GetPointLocation();
 	void CobeShip();
 

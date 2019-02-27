@@ -300,7 +300,8 @@ void AWindController::RightActionMouse() {
 
 		UE_LOG(LogTemp, Warning, TEXT("TMP_location %f "), TMP_location.X, TMP_location.Y, TMP_location.Z);
 
-		TArCharacterStructure = SortCharacter(TArCharacterStructure);
+		 SortCharacter(Charac);
+
 		if (TArCharacterStructure.Num() > 0) {
 			UE_LOG(LogTemp, Warning, TEXT("NotChangeHud true 1"));
 			for (int32 Index = 0; Index != TArCharacterStructure.Num(); ++Index)
@@ -336,16 +337,16 @@ void AWindController::RightActionMouse() {
 * We touch the heroes to sort from the far point to the near
 *  Itteration heroes for check point
 */
-TArray<FCharacterMove> AWindController::SortCharacter(TArray<FCharacterMove> TArCharacterStructure)
+void AWindController::SortCharacter(TArray<ABaseCharacter*> tmpCharacter)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("get point Start"));
 	TArCharacterStructure.Empty();
-	for (int32 Index = 0; Index != Charac.Num(); ++Index)
+	for (int32 Index = 0; Index != tmpCharacter.Num(); ++Index)
 	{
-		if (Charac[Index]) {
-			if (Charac[Index]->Attributes->GetMyHero())
+		if (tmpCharacter[Index]) {
+			if (tmpCharacter[Index]->Attributes->GetMyHero())
 			{  
-				BaseCharacterStructure.ActorCharacter = Charac[Index];
+				BaseCharacterStructure.ActorCharacter = tmpCharacter[Index];
 				TArCharacterStructure.Add(BaseCharacterStructure);
 			}
 		}
