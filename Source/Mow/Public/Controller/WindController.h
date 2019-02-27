@@ -15,7 +15,8 @@ USTRUCT()
 struct FCharacterMove
 {
 	GENERATED_USTRUCT_BODY()
-		ABaseCharacter* ActorCharacter;
+
+	ABaseCharacter* ActorCharacter;
 	//	float Distance;
 	FVector location;
 	bool BusyPoint;
@@ -302,7 +303,9 @@ public:
  
 	void SetNewLocationBuilderAbordage();
 
-	 
+
+	TArray<FCharacterMove> AWindController::SortCharacter(TArray<FCharacterMove> TArCharacterStructure);
+
 	void SortCharacter();
 	//	void GetPointLocation();
 	void CobeShip();

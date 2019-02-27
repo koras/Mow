@@ -79,6 +79,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
+	//	bool MyHero;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+		bool GetMyHero();
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+		bool SetMyHero(bool tmp);
+
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -96,6 +106,8 @@ private:
 	float MoveAcceleration;
 	bool MoveCheckStop; // Check whether the hero is stopped
 	FVector MoveCheckCoordinate; // The old coordinates for verification
+
+	bool MyHero;
 
 	void AddTimeHealth();
 };

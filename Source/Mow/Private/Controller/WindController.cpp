@@ -136,7 +136,7 @@ void AWindController::LeftMouseStart() {
 				UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart() log case 1 "));
 				// selection of heroes on the map
 				if (Charac.Num() == 1) {
-					if (Charac[0]->MyHero == true)
+					if (Charac[0]->Attributes->GetMyHero())
 					{
 						if (Charac[0]->tpm_IsLand)
 						{
@@ -243,7 +243,10 @@ void AWindController::LeftMouseStop() {
 }
 void AWindController::RightActionMouse() {
 	UE_LOG(LogTemp, Warning, TEXT("RightActionMouse 3"));
-	if (HeroesBreak())return;
+	UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() %d "), Charac.Num());
+	UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() iStateController %d "), iStateController);
+
+	if (HeroesBreak())return; 
 
 	switch (iStateController) {
 	case 0:
@@ -251,7 +254,7 @@ void AWindController::RightActionMouse() {
 		RightActionMouseIsland();
 		//	UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() log 1"));
 		if (!bWindYouCanBuild) { // The building is not attached
-								 //		UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() log 2"));
+			UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() log 2"));
 			Server_DefaultMouseClick();
 		}
 
@@ -289,17 +292,23 @@ void AWindController::RightActionMouse() {
 	}
 
 
-
 	if (NotChangeHud) {
+		UE_LOG(LogTemp, Warning, TEXT("NotChangeHud true"));
 		FHitResult MouseLocation;
 		GetHitResultUnderCursor(ECC_Visibility, false, MouseLocation);
 		TMP_location = MouseLocation.Location;
-		SortCharacter();
+
+		UE_LOG(LogTemp, Warning, TEXT("TMP_location %f "), TMP_location.X, TMP_location.Y, TMP_location.Z);
+
+		TArCharacterStructure = SortCharacter(TArCharacterStructure);
 		if (TArCharacterStructure.Num() > 0) {
+			UE_LOG(LogTemp, Warning, TEXT("NotChangeHud true 1"));
 			for (int32 Index = 0; Index != TArCharacterStructure.Num(); ++Index)
 			{
-				if (TArCharacterStructure[Index].ActorCharacter->MyHero == true)
+				UE_LOG(LogTemp, Warning, TEXT("NotChangeHud true 2"));
+				if (TArCharacterStructure[Index].ActorCharacter->Attributes->GetMyHero())
 				{
+					UE_LOG(LogTemp, Warning, TEXT("NotChangeHud true 3"));
 					BaseCharacterTimer = TArCharacterStructure[Index].ActorCharacter;
 					BaseCharacterTimer->BreakCommand();
 					BaseCharacterTimer->SetNewLocation(TArCharacterStructure[Index].location);
@@ -327,17 +336,15 @@ void AWindController::RightActionMouse() {
 * We touch the heroes to sort from the far point to the near
 *  Itteration heroes for check point
 */
-void AWindController::SortCharacter()
+TArray<FCharacterMove> AWindController::SortCharacter(TArray<FCharacterMove> TArCharacterStructure)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("get point Start"));
 	TArCharacterStructure.Empty();
 	for (int32 Index = 0; Index != Charac.Num(); ++Index)
 	{
 		if (Charac[Index]) {
-			if (Charac[Index]->MyHero == true)
-			{
-				//	const FVector TMP_locActor = Charac[Index]->GetActorLocation();
-				//	BaseCharacterStructure.Distance = FVector::Dist(TMP_location, TMP_locActor);
+			if (Charac[Index]->Attributes->GetMyHero())
+			{  
 				BaseCharacterStructure.ActorCharacter = Charac[Index];
 				TArCharacterStructure.Add(BaseCharacterStructure);
 			}
@@ -435,7 +442,7 @@ void AWindController::PatrolGO() {
 	if (BaseCharacterMyHero.Num() > 0) {
 		for (int32 i = 0; i < BaseCharacterMyHero.Num(); i++)
 		{
-			if (BaseCharacterMyHero[i]->MyHero == true)
+			if (BaseCharacterMyHero[i]->Attributes->GetMyHero())
 			{
 				BaseCharacterStructure.ActorCharacter = BaseCharacterMyHero[i];
 				TArCharacterStructure.Add(BaseCharacterStructure);
@@ -450,7 +457,7 @@ void AWindController::PatrolGO() {
 			for (int32 i = 0; i < TArCharacterStructure.Num(); i++)
 			{
 
-				if (TArCharacterStructure[i].ActorCharacter->MyHero == true)
+				if (TArCharacterStructure[i].ActorCharacter->Attributes->GetMyHero())
 				{
 
 					FVector L = TArCharacterStructure[i].location;
@@ -481,24 +488,33 @@ void AWindController::PatrolGO() {
 }
 void AWindController::Server_DefaultMouseClick() {
 	if (Charac.Num() > 0) {
+
+			UE_LOG(LogTemp, Warning, TEXT(" UAWindController::Server_DefaultMouseClick()"));
+
 		for (int32 i = 0; i < Charac.Num(); i++)
 		{
-			if (Charac[i] && Charac[i]->MyHero)
+			if (Charac[i] && Charac[i]->Attributes->GetMyHero())
 			{
 
+				UE_LOG(LogTemp, Warning, TEXT(" Charac[i]->Attributes->GetMyHero() true"));
 				BaseCharacterMyHero.Add(Charac[i]);
 				MyHeroBranch = true;
 				if (Charac[i]->tpm_IsLand)
 				{
+					UE_LOG(LogTemp, Warning, TEXT(" if (Charac[i]->tpm_IsLand)"));
 					__MouseClickMoveChar(Charac[i]);
 				}
+			}
+			else {
+
+				UE_LOG(LogTemp, Warning, TEXT(" Charac[i]->Attributes->GetMyHero() false") );
 			}
 		}
 	}
 }
 void AWindController::SelectedBuilder() {
 
-	UE_LOG(LogTemp, Warning, TEXT("AWindController::SelectedBuilder()  0 "));
+	UE_LOG(LogTemp, Warning, TEXT("AWindController::SelectedBuilder()  0 ") );
 	TArray<AActor*> build;
 	for (TActorIterator<ABaseBuilding> build(GetWorld()); build; ++build)
 	{
@@ -593,7 +609,7 @@ void AWindController::GetBoxMouseCursor() {
 								ABaseCharacter *  BaseCharacter_tmp = Cast<ABaseCharacter>(Charac[s]);
 								if (BaseCharacter_tmp)
 								{
-									UE_LOG(LogTemp, Warning, TEXT("Charac.Num() %f"), Charac.Num());
+								//	UE_LOG(LogTemp, Warning, TEXT("Charac.Num() %d "), Charac.Num());
 									BaseCharacter_tmp->bBattleSelectedCursor = false;
 								}
 							}
@@ -679,7 +695,22 @@ void AWindController::traceIsland(FVector Start) {}
 bool AWindController::traceGarbage(FVector Start) { return true; }
 
 bool AWindController::BuildStractionName(int32 iBuildName) { return true; }
-bool AWindController::BuildBreak() { return true; }
+bool AWindController::BuildBreak() {
+	if (iMeshBuilder) {
+		iMeshBuilder->Destroy();
+		iStateController = 0;
+		SpawnNewBilderLocation = false;
+		//	UE_LOG(LogTemp, Warning, TEXT("SpawnNewBilderLocation = false;"));
+
+		if (Charac.Num() == 1)
+		{
+			Charac[0]->SelectEraseToBoarding = false;
+		}
+		return true;
+	}
+	return false;
+
+}
 
 void AWindController::SelectedCharacter() {
 	// Selecter mouse character
@@ -705,7 +736,7 @@ void AWindController::SelectedCharacter() {
 
 		for (int32 i = 0; i < BaseCharacterMyHero.Num(); i++)
 		{
-			if (BaseCharacterMyHero[i]->MyHero == true)
+			if (BaseCharacterMyHero[i]->Attributes->GetMyHero())
 			{
 				// mark that the hero no longer has the selection
 				BaseCharacterMyHero[i]->bBattleSelectedCursor = false;
@@ -742,14 +773,69 @@ void AWindController::CursorOverOut() {
 	}
 }
 
-void   AWindController::CobeShip() {}
+// sort ship
+void   AWindController::CobeShip() {
+
+	FVector2D CoordShip = FVector2D(TMP_location.X, TMP_location.Y);
+	FVector2D NewCoordShip = FVector2D(TMP_location.X, TMP_location.Y);
+	bool residue = false;
+	int32 CountShipSum = TArCharacterStructure.Num();
+
+	if (CountShipSum == 1) {
+		//	UE_LOG(LogTemp, Warning, TEXT(" CountShipSum  1  "), CountShipSum);
+		TArCharacterStructure[0].location = FVector(TMP_location.X, TMP_location.Y, 150.f);
+	}
+	const int LineShip = FMath::Sqrt(CountShipSum);
+	//	UE_LOG(LogTemp, Warning, TEXT(" CountShipSum  == %d  "), CountShipSum);
+	int32 ResidueShips = 0;
+	if (LineShip*LineShip != CountShipSum)
+	{
+		ResidueShips = CountShipSum - LineShip*LineShip;
+	}
+
+	NewCoordShip.X = CoordShip.X - (LineShip * DistanceRangePoint / 2);
+	NewCoordShip.Y = CoordShip.Y - (LineShip * DistanceRangePoint / 2);
+
+	//UE_LOG(LogTemp, Warning, TEXT("coord  %f %f %f"),  NewCoordShip.X, NewCoordShip.Y, DistanceRangePoint);
+	int32 Ship = 0;
+	float ShipY_tmp = NewCoordShip.Y;
+	float ShipX_tmp = NewCoordShip.X;
+	for (int32 IX = 0; IX != LineShip; ++IX)
+	{
+		NewCoordShip.X = NewCoordShip.X + DistanceRangePoint;
+		NewCoordShip.Y = ShipY_tmp; // переопределяем
+		for (int32 IY = 0; IY != LineShip; ++IY)
+		{
+			NewCoordShip.Y = NewCoordShip.Y + DistanceRangePoint;
+			//	UE_LOG(LogTemp, Warning, TEXT("%d %f %f %f"), Ship, NewCoordShip.X, NewCoordShip.Y, DistanceRangePoint);
+			FVector data3d = FVector(NewCoordShip.X, NewCoordShip.Y, 0.f);
+			TArCharacterStructure[Ship].location = data3d;
+			Ship++;
+		}
+	}
+
+	NewCoordShip.X = NewCoordShip.X + DistanceRangePoint;
+	NewCoordShip.Y = ShipY_tmp; // переопределяем
+	if (ResidueShips > 0)
+	{
+		for (int32 IDop = 0; IDop != ResidueShips; ++IDop)
+		{
+			NewCoordShip.Y = NewCoordShip.Y + DistanceRangePoint;
+			FVector data3d = FVector(NewCoordShip.X, NewCoordShip.Y, 150.f);
+			TArCharacterStructure[Ship].location = data3d;
+			Ship++;
+		}
+	}
+
+
+}
 
 void AWindController::SetNewLocationBuilderAbordage() {
 
 	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage()"));
 	if (Charac.Num() == 1) {
 		//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage() 1"));
-		if (Charac[0]->MyHero == true)
+		if (Charac[0]->Attributes->GetMyHero())
 		{
 			//		UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBuilderAbordage() 2"));
 
@@ -853,7 +939,17 @@ void AWindController::SetNewLocationBuilder() {
 }
 void AWindController::SetActorLocationBilder() {}
 
-bool AWindController::HeroesBreak() { return true; }
+bool AWindController::HeroesBreak() { 
+	youCanBuildDrone = false;
+	if (SpawnNewHeroesLocation) {
+		SpawnNewHeroesLocation = false;
+		iBaseCharacterSpawn->Destroy();
+		iStateController = 0;
+		return true;
+	}
+	return false;
+
+}
 
 void AWindController::SpawnCursorPoint()
 {
@@ -874,7 +970,7 @@ void AWindController::GetAllMyHero() {
 	if (Charac.Num() > 0) {
 		for (int32 i = 0; i < Charac.Num(); i++)
 		{
-			if (Charac[i] && Charac[i]->MyHero)
+			if (Charac[i] && Charac[i]->Attributes->GetMyHero())
 			{
 				BaseCharacterMyHero.Add(Charac[i]);
 				MyHeroBranch = true;
@@ -893,6 +989,7 @@ void AWindController::LogicAI() {}
 void AWindController::__MouseClickMoveChar(ABaseCharacter* ObjCharacter)
 {
 
+	UE_LOG(LogTemp, Warning, TEXT(" AWindController::__MouseClickMoveChar(ABaseCharacter* ObjCharacter)"));
 	if (ObjCharacter->IsLand)
 	{
 		if (ObjCharacter->tpm_IsLand != ObjCharacter->IsLand) {

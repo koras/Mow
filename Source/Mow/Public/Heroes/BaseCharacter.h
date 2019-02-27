@@ -81,6 +81,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		UStaticMeshComponent * WeaponMeshClick;
 
+	/* move Island and create Builder */
+
+	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
+		ABaseLand* IsLand;
+	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
+		ABaseLand* tpm_IsLand;
+	ABaseBuilding * SpawnBuilder;
+
 
 
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
@@ -117,8 +125,8 @@ public:
 
 
 	/*my hero or foe*/
-	UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
-		bool MyHero;
+	//UPROPERTY(EditAnywhere, Category = "Hero property", BlueprintReadWrite)
+	//	bool MyHero;
 
 
 	UPROPERTY(EditAnywhere, Category = "HeroesName", BlueprintReadWrite)
@@ -177,13 +185,9 @@ public:
 	*/
 	UFUNCTION(Server, Reliable, WithValidation)
 		void Server_PatrolToTepeat(FVector ControllerLocation);
+	 
 
 
-	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
-		ABaseLand* tpm_IsLand;
-
-	UPROPERTY(EditAnywhere, Category = "IsLand", BlueprintReadWrite)
-		ABaseLand* IsLand;
 
 	UPROPERTY(Replicated, EditAnywhere, Category = "Build")
 		bool bCanBuildIsland;

@@ -10,6 +10,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	Attributes = CreateDefaultSubobject<UAttributesComponent>(TEXT("Attribute"));
 	PrimaryActorTick.bCanEverTick = true;
+	Attributes->SetMyHero(true);
 
 	//static ConstructorHelpers::FObjectFinder<UBlendSpace1D>  BS(TEXT("BlendSpace1D'/Game/Heroes/WorkerH/anim/idle/worker_anim_Skeleton_BlendSpace1D2.worker_anim_Skeleton_BlendSpace1D2'"));
 	//check(BS.Object);
@@ -225,8 +226,10 @@ void ABaseCharacter::RemovingIslandAbordage() {
 // Called to bind functionality to input
 void ABaseCharacter::SetNewLocation(FVector DestLocation)
 {
-	/*
+		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
+  
 	if (CharacterMove) {
+		/*
 	if (!PlayerAI)
 	{
 	PlayerAI = Cast<ABaseAIController>(GetController());
@@ -241,8 +244,9 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 	PlayerAI->SendMoveActor(WeaponMesh, this, DestLocation);
 	bBusy = true;
 	}
-	}
 	*/
+	}
+	 
 }
 
 

@@ -61,11 +61,28 @@ float UAttributesComponent::GetFraction() {
 void UAttributesComponent::SetFraction(float tmpfraction) {
 	  fraction = tmpfraction;
 } 
+ 
+
+bool UAttributesComponent::GetMyHero()
+{
+	return MyHero;
+}
+
+bool UAttributesComponent::SetMyHero(bool tmp)
+{
+	return MyHero = tmp;
+}
+
+
 
 void UAttributesComponent::AddTimeHealth()
 {
 	SetHealth(CharacterAddHealth);
 }
+
+
+
+
 
 void UAttributesComponent::SetHealth(float Healt) {
 	CharacterCurrentHealth += Healt;
