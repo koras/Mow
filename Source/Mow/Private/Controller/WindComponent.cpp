@@ -265,6 +265,28 @@ void UWindComponent::Server_DefaultMouseClick() {
 		}
 	}
 }
+void UWindComponent::leftMouse0() {
+
+	if (!bWindYouCanBuild) {
+	//	UE_LOG(LogTemp, Warning, TEXT("iStateController--- %f"), iStateController);
+
+	//	UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart() log case 1 "));
+		// selection of heroes on the map
+		if (Charac.Num() == 1) {
+			if (Charac[0]->Attributes->GetMyHero())
+			{
+				if (Charac[0]->tpm_IsLand)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Charac[0]->tpm_IsLand"));
+				}
+				if (Charac[0]->IsLand)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Charac[0]->IsLand 1"));
+				}
+			}
+		}
+	}
+}
 
 
 void UWindComponent::SelectedCharacter(APlayerController* PlayerController) {

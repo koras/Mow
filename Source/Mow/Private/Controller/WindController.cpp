@@ -8,11 +8,11 @@ AWindController::AWindController()
 
 	wComponent = CreateDefaultSubobject<UWindComponent>(TEXT("Attribute"));
 
-	 
-	 bBattleVector = false;
+
+	bBattleVector = false;
 
 	// You can build a building or not, when choosing.
-	 wComponent->bWindYouCanBuild = false;
+	wComponent->bWindYouCanBuild = false;
 }
 
 void AWindController::BeginPlay()
@@ -48,7 +48,7 @@ void AWindController::SetupInputComponent()
 
 
 }
- 
+
 
 void AWindController::LeftMouseStart() {
 
@@ -66,54 +66,34 @@ void AWindController::LeftMouseStart() {
 
 	if (bBattleVector)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("bBattleVector true") );
+		UE_LOG(LogTemp, Warning, TEXT("bBattleVector true"));
 		bBattleCursor = true;
 		// Prohibited any action
 		return;
 	}
 	else {
 
-			UE_LOG(LogTemp, Warning, TEXT("bBattleVector false")); 
-		}
+		UE_LOG(LogTemp, Warning, TEXT("bBattleVector false"));
+	}
 
 	BuildViewportCanvas = false;
-	 
+
 	//Do not turn off HUD
 	if (wComponent->NotChangeHud) {
-		GetAllMyHero(); 
+		GetAllMyHero();
 
 		wComponent->isPatrol = false;
 		// Selecter mouse character 
 		switch (iStateController) {
 		case 0:
 		{
-			UE_LOG(LogTemp, Warning, TEXT("iStateController %f"), iStateController);
-
-			 
-			if (!wComponent->bWindYouCanBuild) {
-				UE_LOG(LogTemp, Warning, TEXT("iStateController--- %f"), iStateController);
-
-				UE_LOG(LogTemp, Warning, TEXT("AWindController::LeftMouseStart() log case 1 "));
-				// selection of heroes on the map
-				if (wComponent->Charac.Num() == 1) {
-					if (wComponent->Charac[0]->Attributes->GetMyHero())
-					{
-						if (wComponent->Charac[0]->tpm_IsLand)
-						{
-							UE_LOG(LogTemp, Warning, TEXT("Charac[0]->tpm_IsLand"));
-						}
-						if (wComponent->Charac[0]->IsLand)
-						{
-							UE_LOG(LogTemp, Warning, TEXT("Charac[0]->IsLand 1"));
-						}
-					}
-				}
-				bPressRightMouseKey = true;
-				wComponent->SelectedCharacter(this);
-				// selection of buildings on the map
-				SelectedBuilder();
-			}
+			bPressRightMouseKey = true;
+			wComponent->leftMouse0(); 
+			wComponent->SelectedCharacter(this);
+			// selection of buildings on the map
+			SelectedBuilder();
 		}
+		
 		break;
 		case 1:
 		{
@@ -125,11 +105,11 @@ void AWindController::LeftMouseStart() {
 
 			//	UE_LOG(LogTemp, Warning, TEXT("UNITS PATROL"));
 			wComponent->PatrolGO(this);
-		//	if (MouseClick)
-		//	{
-				SpawnCursorPoint();
-		//	}
-			// break
+			//	if (MouseClick)
+			//	{
+			SpawnCursorPoint();
+			//	}
+				// break
 			iStateController = 0;
 		}
 		break;
@@ -177,12 +157,12 @@ void AWindController::LeftMouseStart() {
 		default:
 			//	UE_LOG(LogTemp, Warning, TEXT("default mouse "));
 			break;
-		}
-
-		wComponent->BaseCharacterMyHero.Empty();
-		wComponent->MyHeroBranch = false;
-
 	}
+
+	wComponent->BaseCharacterMyHero.Empty();
+	wComponent->MyHeroBranch = false;
+
+}
 	else {
 		// click on the button
 		LogicAI();
@@ -204,10 +184,10 @@ void AWindController::LeftMouseStop() {
 
 }
 void AWindController::RightActionMouse() {
-	UE_LOG(LogTemp, Warning, TEXT("RightActionMouse 3")); 
+	UE_LOG(LogTemp, Warning, TEXT("RightActionMouse 3"));
 	UE_LOG(LogTemp, Warning, TEXT("AWindController::RightActionMouse() iStateController %d "), iStateController);
 
-	if (HeroesBreak())return; 
+	if (HeroesBreak())return;
 
 	switch (iStateController) {
 	case 0:
@@ -290,7 +270,7 @@ void AWindController::RightActionMouse() {
 }
 
 
- 
+
 
 
 void AWindController::RightActionStop() {
@@ -307,7 +287,7 @@ void AWindController::BattleDetectStop() {
 	//	UE_LOG(LogTemp, Warning, TEXT("BattleDetectStop"));
 	bBattleVector = false;
 }
- 
+
 
 
 
@@ -323,13 +303,13 @@ void AWindController::BehindTheIslandBoarded() {
 void AWindController::NewLocation() {}
 void AWindController::CenselHeroIsBuilding() {}
 
- 
- 
+
+
 
 
 void AWindController::SelectedBuilder() {
 
-	UE_LOG(LogTemp, Warning, TEXT("AWindController::SelectedBuilder()  0 ") );
+	UE_LOG(LogTemp, Warning, TEXT("AWindController::SelectedBuilder()  0 "));
 	TArray<AActor*> build;
 	for (TActorIterator<ABaseBuilding> build(GetWorld()); build; ++build)
 	{
@@ -340,7 +320,7 @@ void AWindController::SelectedBuilder() {
 			ClearVar();
 			wComponent->BuildController = PlayerBuild;
 			BuildViewportCanvas = true;
-			iStateController = 5; 
+			iStateController = 5;
 		}
 	}
 }
@@ -361,7 +341,7 @@ void AWindController::GetBoxMouseCursor() {
 	// work uilder
 	if (!wComponent->BuilderBarrakActive)
 	{
-		 
+
 		//Do not turn off HUD
 		if (wComponent->NotChangeHud) {
 			// selected actor
@@ -378,7 +358,7 @@ void AWindController::GetBoxMouseCursor() {
 
 
 void AWindController::traceIsland(FVector Start) {}
- 
+
 
 bool AWindController::BuildStractionName(int32 iBuildName) {
 	if (wComponent->Charac.Num() == 1) {
@@ -405,8 +385,8 @@ bool AWindController::BuildStractionName(int32 iBuildName) {
 	return false;
 }
 
- 
- 
+
+
 void AWindController::SetCommandSpawnDrone() {
 }
 
@@ -425,8 +405,8 @@ void AWindController::CursorOverOut() {
 	}
 }
 
- 
- 
+
+
 
 FVector AWindController::GetPointCursor() {
 	FHitResult HitResult;
@@ -434,10 +414,10 @@ FVector AWindController::GetPointCursor() {
 	FVector vHit = HitResult.Location;
 	return  vHit;
 }
- 
+
 void AWindController::SetActorLocationBilder() {}
 
-bool AWindController::HeroesBreak() { 
+bool AWindController::HeroesBreak() {
 	youCanBuildDrone = false;
 	if (wComponent->SpawnNewHeroesLocation) {
 		wComponent->SpawnNewHeroesLocation = false;
@@ -480,11 +460,11 @@ void AWindController::GetAllMyHero() {
 void AWindController::LogicAI() {}
 
 
- 
+
 
 
 /**
-*  
+*
 * Search Islands for boarding
 */
 void AWindController::SetActorLocationAbordageIsland() {

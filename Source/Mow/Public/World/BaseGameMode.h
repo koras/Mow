@@ -16,10 +16,11 @@ class MOW_API ABaseGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
+
 public:
 	ABaseGameMode();
 		virtual void Tick(float DeltaSeconds) override;
-
+		 
 		// Called when the game starts or when spawned
 		virtual void BeginPlay() override;
 };

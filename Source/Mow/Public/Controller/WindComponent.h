@@ -69,6 +69,8 @@ public:
 	void CobeShip(FVector vLocation, TArray<FCharacterMove> Characters);
 	void SortCharacter();
 
+	void leftMouse0();
+
 	TArray<FCharacterMove> TArCharacterStructure;
 
 	FCharacterMove BaseCharacterStructure;

@@ -5,6 +5,9 @@
 
 #include "GameFramework/Pawn.h"
 
+
+#include "PushForce.h"
+
 #include "Components/SphereComponent.h" 
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -15,6 +18,8 @@
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Engine/SkeletalMesh.h"
 #include "Runtime/Engine/Public/EngineUtils.h"
+
+
 
 #include "Island/BaseLand.h"
 
@@ -89,7 +94,8 @@ public:
 		ABaseLand* tpm_IsLand;
 	ABaseBuilding * SpawnBuilder;
 
-
+	// create object
+	FPushForceModule * MovePlugin;
 
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
 		int32 ClanChar;

@@ -10,5 +10,6 @@ public class MowTarget : TargetRules
 		Type = TargetType.Game;
 
 		ExtraModuleNames.AddRange( new string[] { "Mow" } );
-	}
+        //PublicDependencyModuleNames.AddRange(new string[] { "PushForce" });
+    }
 }
