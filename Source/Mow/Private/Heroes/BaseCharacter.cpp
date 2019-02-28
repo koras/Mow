@@ -47,7 +47,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// FOR COLLISION
 	proxSphere = CreateDefaultSubobject<USphereComponent>( TEXT("Sphere"));
-	proxSphere->AttachTo(RootComponent);
+//	proxSphere->AttachTo(RootComponent);
 	proxSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	proxSphere->SetSphereRadius(80.f);// old 40
 	proxSphere->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
@@ -56,7 +56,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// IslandSkeletalMeshMesh
 	IslandSkeletalMeshMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("IslandSkeletalMeshMesh"));
-	IslandSkeletalMeshMesh->AttachTo(RootComponent);
+	//IslandSkeletalMeshMesh->AttachTo(RootComponent);
 	IslandSkeletalMeshMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); 
 	IslandSkeletalMeshMesh->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
 //	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
@@ -64,6 +64,10 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	IslandSkeletalMeshMesh->CastShadow = false;
 //	IslandSkeletalMeshMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
 
+//	FPushForceModule* const MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
+
+	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
+//MovePlugin = CreateDefaultSubobject<FPushForceModule>(TEXT("MyPluginComponent"));
 }
 
 
@@ -226,6 +230,13 @@ void ABaseCharacter::RemovingIslandAbordage() {
 // Called to bind functionality to input
 void ABaseCharacter::SetNewLocation(FVector DestLocation)
 {
+
+	 	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f") , MovePlugin->IsThisNumber42());
+
+		MovePlugin->StartupModule();
+		 
+
+
 		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
   
 	if (CharacterMove) {
@@ -291,6 +302,8 @@ void ABaseCharacter::BreakCommand()
 void ABaseCharacter::Server_PatrolToTepeat_Implementation(FVector ControllerLocation)
 //void ABaseCharacter::Server_PatrolToTepeat(FVector ControllerLocation)
 {
+//	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f "), Move->IsThisNumber42(25)); 
+	 
 /* 
 	//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::Server_PatrolToTepeat_Implementation"));
 	if (!PlayerAI)
