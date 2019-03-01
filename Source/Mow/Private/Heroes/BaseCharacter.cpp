@@ -66,7 +66,7 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 //	FPushForceModule* const MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
 
-	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
+//	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
 //MovePlugin = CreateDefaultSubobject<FPushForceModule>(TEXT("MyPluginComponent"));
 }
 
@@ -231,11 +231,11 @@ void ABaseCharacter::RemovingIslandAbordage() {
 void ABaseCharacter::SetNewLocation(FVector DestLocation)
 {
 
-	 	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f") , MovePlugin->IsThisNumber42());
+	// 	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f") , MovePlugin->IsThisNumber42());
 
-		MovePlugin->StartupModule();
+		//MovePlugin->StartupModule();
 		 
-
+		//MovePlugin->SendMoveActor(WeaponMesh, this, DestLocation);
 
 		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
   
