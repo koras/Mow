@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 
 
-#include "PushForce.h"
+//#include "PushForce.h"
 
 #include "Components/SphereComponent.h" 
 #include "Components/StaticMeshComponent.h"
@@ -95,7 +95,7 @@ public:
 	ABaseBuilding * SpawnBuilder;
 
 	// create object
-	FPushForceModule * MovePlugin;
+//	FPushForceModule * MovePlugin;
 
 	UPROPERTY(EditAnywhere, Category = "Heroes", BlueprintReadWrite)
 		int32 ClanChar;
