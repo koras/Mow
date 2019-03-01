@@ -235,7 +235,7 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 
 		MovePlugin->StartupModule();
 		 
-
+		MovePlugin->SendMoveActor(WeaponMesh, this, DestLocation);
 
 		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
   
