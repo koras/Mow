@@ -240,13 +240,12 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
   
 	if (CharacterMove) {
-		/*
+	
 	if (!PlayerAI)
 	{
 	PlayerAI = Cast<ABaseAIController>(GetController());
 	}
 	if (PlayerAI)
-	{
 	IsMoveActor = true;
 	AnimationStart();
 
@@ -254,8 +253,8 @@ void ABaseCharacter::SetNewLocation(FVector DestLocation)
 	//	UE_LOG(LogTemp, Warning, TEXT("DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
 	PlayerAI->SendMoveActor(WeaponMesh, this, DestLocation);
 	bBusy = true;
-	}
-	*/
+	
+	
 	}
 	 
 }
