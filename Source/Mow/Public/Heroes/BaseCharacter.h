@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 
 
+#include "ShipNavMovementComponent.h"
+
 //#include "PushForce.h"
 
 #include "Components/SphereComponent.h" 
@@ -276,6 +278,13 @@ public:
 	virtual void FireDeActive();
 
 	bool bBuild;
+
+
+
+
+	UPROPERTY(EditAnywhere, Category = "Move", BlueprintReadWrite)
+		UShipNavMovementComponent * PlayerAI;
+
 
 private:
 
