@@ -68,6 +68,10 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	//	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
 	//MovePlugin = CreateDefaultSubobject<FPushForceModule>(TEXT("MyPluginComponent"));
+
+	MovePlayerAIComponent = ObjectInitializer.CreateAbstractDefaultSubobject<UShipNavMovementComponent>(this, TEXT("MovementComponent"));
+
+	//MovePlayerAIComponent = NewObject<UShipNavMovementComponent>(this);
 }
 
 
@@ -203,18 +207,18 @@ void ABaseCharacter::DeadActor()
 }
 
 void ABaseCharacter::RemovingIslandAbordage() {
-	if (Attributes->bIsAbordage) {
+	if (Attributes->getbIsAbordage()) {
 		if (ConstraintComp)
 		{
 			ConstraintComp->RemoveFromRoot();
 			ConstraintComp->BreakConstraint();
 			ConstraintComp->DestroyComponent(true);
 			HUDabordage = false;
-			SelectEraseToBoarding = false;
+			Attributes->setSelectEraseToBoarding(false);
 			bConstraintComp = true;
-			bIsLandBoarding = true;
+			Attributes->setbIsLandBoarding(true);
 
-			Attributes->bIsAbordage = false;
+			Attributes->setbIsAbordage(false);
 
 			//	IsLand->BreackAbordage();
 			//IsLand->bHeroes_Island = false;
@@ -227,34 +231,53 @@ void ABaseCharacter::RemovingIslandAbordage() {
 
 
 
+
+void ABaseCharacter::StopCharacter()
+{
+	//UCharacterMovementComponent* CharacterMovement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+//	if (CharacterMovement)
+//	{
+//		bBusy = false;
+//		CharacterMovement->StopMovementImmediately();
+//	}
+}
+
+
+
+
 // Called to bind functionality to input
 void ABaseCharacter::SetNewLocation(FVector DestLocation)
 {
+	 
 
-	// 	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f") , MovePlugin->IsThisNumber42());
+//	UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
 
-		//MovePlugin->StartupModule();
+	if (Attributes->CharacterMove) {
 
-		//MovePlugin->SendMoveActor(WeaponMesh, this, DestLocation);
+	//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 1") );
 
-	UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
-
-	if (CharacterMove) {
-
-		if (!PlayerAI)
-		{
-			PlayerAI = Cast<UShipNavMovementComponent>(GetController());
-		}
-		if (PlayerAI)
-			//	IsMoveActor = true;
+		if (MovePlayerAIComponent){
+		//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 33333"));
+			Attributes->IsMoveActor = true;
 			//	AnimationStart();
 
 				//	UE_LOG(LogTemp, Warning, TEXT(" GetActorLocation %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 				//	UE_LOG(LogTemp, Warning, TEXT("DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
-			PlayerAI->SendMoveActor(WeaponMesh, this, DestLocation);
-		bBusy = true;
+				MovePlayerAIComponent->SendMoveActor(WeaponMesh, this, DestLocation);
+				//MovePlayerAIComponent->SendMoveActor(WeaponMesh, this, DestLocation);
+			bBusy = true;
 
 
+		}
+		else {
+
+			UE_LOG(LogTemp, Warning, TEXT("CharacterMove 6"));
+		}
+
+	}
+	else {
+
+		UE_LOG(LogTemp, Warning, TEXT("CharacterMove 4"));
 	}
 
 }
@@ -303,22 +326,29 @@ void ABaseCharacter::Server_PatrolToTepeat_Implementation(FVector ControllerLoca
 {
 	//	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f "), Move->IsThisNumber42(25)); 
 
-	/*
+
+//	if (!MovePlayerAIComponent)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 2"));
+	//	MovePlayerAIComponent = Cast<UShipNavMovementComponent>(GetController());
+	//}
+
+	
 		//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::Server_PatrolToTepeat_Implementation"));
-		if (!PlayerAI)
+		if (!MovePlayerAIComponent)
 		{
-			PlayerAI = Cast<ABaseAIController>(GetController());
+			MovePlayerAIComponent = Cast<UShipNavMovementComponent>(GetController());
 		}
 
-		if (PlayerAI)
+		if (MovePlayerAIComponent)
 		{
-			PlayerAI->SendPatrolTo(WeaponMesh, this, ControllerLocation);
+		 	MovePlayerAIComponent->SendPatrolTo(WeaponMesh, this, ControllerLocation);
 			//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI true Patrol %f %f"), ControllerLocation.X, ControllerLocation.Y);
 		}
 		else {
 			//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI false Patrol"));
 		}
-		*/
+		
 }
 bool ABaseCharacter::Server_PatrolToTepeat_Validate(FVector ControllerLocation)
 {

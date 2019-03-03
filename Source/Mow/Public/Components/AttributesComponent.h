@@ -23,8 +23,8 @@ public:
 	/*
 	*  ѕроисходит ли героем абордаж острова
 	*/
-	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
-		bool bIsAbordage = false;
+//	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
+//		bool bIsAbordage = false;
 
 	UPROPERTY(EditAnywhere, Category = "Attributes", BlueprintReadWrite)
 		float CharacterCurrentManna;
@@ -40,7 +40,7 @@ public:
 		float CharacterMaxExperience;
 	UPROPERTY(EditAnywhere, Category = "Attributes", BlueprintReadWrite)
 		float CharacterAddExperience;
-	bool HeroIsBuilding;
+	bool HeroIsBuilding = false;
 	UPROPERTY(EditAnywhere, Category = "Attributes", BlueprintReadWrite)
 		float CharacterCurrentHealth;
 	UPROPERTY(EditAnywhere, Category = "Attributes", BlueprintReadWrite)
@@ -50,7 +50,11 @@ public:
 	// MOVE
 	UPROPERTY(Replicated, EditAnywhere, Category = "Attributes")
 		FVector BaseCharLocation;
-
+	/*
+	* Can the hero to move
+	*/
+	UPROPERTY(Replicated, EditAnywhere, Category = "Move")
+		bool CharacterMove = true;
  
 
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
@@ -88,26 +92,53 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 		bool SetMyHero(bool tmp);
 
+	float CharMapHeight = 50.f;
+	bool GoIslandPoint = false;
+	/*
+	* Island boarder abordage
+	*/ 
+	bool IsMoveActor = false;
 
+
+	void setbIsAbordage(bool Abordage);
+	bool getbIsAbordage();
+	void setbCanBuildIsland(bool Abordage);
+	bool getbCanBuildIsland();
+	void setbIsLandBoarding(bool Abordage);
+	bool getbIsLandBoarding();
+	void setSelectEraseToBoarding(bool EraseToBoarding);
+	bool getSelectEraseToBoarding();
+	 
+	 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
  
 private:
+	bool SelectEraseToBoarding = false;
 	float fraction;
 	float AttackRadius;
 	float AttackSpeed;
-	bool CanAttack;
-	bool IsMoveActor;
+	bool CanAttack; 
 
 	// Characteristics of the hero
 	float MoveMaxSpeed;
 	float MoveCurrentSpeed;
+	bool bIsLandBoarding = false;
 	float MoveAcceleration;
 	bool MoveCheckStop; // Check whether the hero is stopped
 	FVector MoveCheckCoordinate; // The old coordinates for verification
 
+	bool bIsAbordage = false;
 	bool MyHero;
+	bool bstop_anim_pawn = false;
 
-	void AddTimeHealth();
+	int32 AdversaryType = 2;
+	//UPROPERTY(Replicated, EditAnywhere, Category = "Build")
+		bool bCanBuildIsland = false;
+
+	bool bReplicates = true;
+	bool bstop_anim_move = false;
+	bool bstart_anim_move = false;
+	void AddTimeHealth(); 
 };
