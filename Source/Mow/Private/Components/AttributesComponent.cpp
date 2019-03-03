@@ -42,6 +42,56 @@ float UAttributesComponent::GetMaxHealth() {
 	return CharacterMaxHealth;
 }
 
+void UAttributesComponent::setbIsAbordage(bool Abordage) {
+	bIsAbordage = Abordage;
+}
+
+
+
+
+bool UAttributesComponent::getbIsAbordage() {
+	return bIsAbordage;
+}
+
+
+void UAttributesComponent::setbIsLandBoarding(bool LandBoarding) {
+	bIsLandBoarding = LandBoarding;
+}
+
+bool UAttributesComponent::getbIsLandBoarding() {
+	return bIsLandBoarding;
+}
+
+
+
+ 
+
+
+
+
+void UAttributesComponent::setbCanBuildIsland(bool CanBuildIsland) {
+	bCanBuildIsland = CanBuildIsland;
+}
+
+bool UAttributesComponent::getbCanBuildIsland() {
+	return bCanBuildIsland;
+}
+
+
+
+
+void UAttributesComponent::setSelectEraseToBoarding(bool EraseToBoarding) {
+	SelectEraseToBoarding = EraseToBoarding;
+}
+
+bool UAttributesComponent::getSelectEraseToBoarding() {
+	return SelectEraseToBoarding;
+}
+
+
+
+
+
 
 float UAttributesComponent::GetManna() {
 	return CharacterCurrentManna;

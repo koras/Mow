@@ -18,13 +18,13 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	//check(cubeStandart.Object);
 	static ConstructorHelpers::FObjectFinder <UStaticMesh>ObodMesh(TEXT("StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
 	check(ObodMesh.Object);
-//	static ConstructorHelpers::FObjectFinder <UStaticMesh>ObodMesh2(TEXT("StaticMesh'/Game/Primitive/mash/cube2.cube2'"));
-	//check(ObodMesh.Object);
-//	BlendSpace = BS.Object;
+	//	static ConstructorHelpers::FObjectFinder <UStaticMesh>ObodMesh2(TEXT("StaticMesh'/Game/Primitive/mash/cube2.cube2'"));
+		//check(ObodMesh.Object);
+	//	BlendSpace = BS.Object;
 
 
 
-	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>( TEXT("Block"));
+	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Block"));
 	RootComponent = WeaponMesh;
 
 	WeaponMesh->CastShadow = false;
@@ -46,8 +46,8 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 
 	// FOR COLLISION
-	proxSphere = CreateDefaultSubobject<USphereComponent>( TEXT("Sphere"));
-//	proxSphere->AttachTo(RootComponent);
+	proxSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
+	//	proxSphere->AttachTo(RootComponent);
 	proxSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	proxSphere->SetSphereRadius(80.f);// old 40
 	proxSphere->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
@@ -57,17 +57,21 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	// IslandSkeletalMeshMesh
 	IslandSkeletalMeshMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("IslandSkeletalMeshMesh"));
 	//IslandSkeletalMeshMesh->AttachTo(RootComponent);
-	IslandSkeletalMeshMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); 
+	IslandSkeletalMeshMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	IslandSkeletalMeshMesh->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
-//	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
+	//	IslandSkeletalMeshMesh->SetMaterial(0, Material_Island_tmp.Object);
 	IslandSkeletalMeshMesh->SetCollisionProfileName(FName("OverlapAll"));
 	IslandSkeletalMeshMesh->CastShadow = false;
-//	IslandSkeletalMeshMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	//	IslandSkeletalMeshMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
 
-//	FPushForceModule* const MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
+	//	FPushForceModule* const MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
 
-//	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
-//MovePlugin = CreateDefaultSubobject<FPushForceModule>(TEXT("MyPluginComponent"));
+	//	MovePlugin = FModuleManager::LoadModulePtr<FPushForceModule>("MyModule");
+	//MovePlugin = CreateDefaultSubobject<FPushForceModule>(TEXT("MyPluginComponent"));
+
+	MovePlayerAIComponent = ObjectInitializer.CreateAbstractDefaultSubobject<UShipNavMovementComponent>(this, TEXT("MovementComponent"));
+
+	//MovePlayerAIComponent = NewObject<UShipNavMovementComponent>(this);
 }
 
 
@@ -203,18 +207,18 @@ void ABaseCharacter::DeadActor()
 }
 
 void ABaseCharacter::RemovingIslandAbordage() {
-	if (Attributes->bIsAbordage) {
+	if (Attributes->getbIsAbordage()) {
 		if (ConstraintComp)
 		{
 			ConstraintComp->RemoveFromRoot();
 			ConstraintComp->BreakConstraint();
 			ConstraintComp->DestroyComponent(true);
 			HUDabordage = false;
-			SelectEraseToBoarding = false;
+			Attributes->setSelectEraseToBoarding(false);
 			bConstraintComp = true;
-			bIsLandBoarding = true;
+			Attributes->setbIsLandBoarding(true);
 
-			Attributes->bIsAbordage = false;
+			Attributes->setbIsAbordage(false);
 
 			//	IsLand->BreackAbordage();
 			//IsLand->bHeroes_Island = false;
@@ -227,36 +231,55 @@ void ABaseCharacter::RemovingIslandAbordage() {
 
 
 
+
+void ABaseCharacter::StopCharacter()
+{
+	//UCharacterMovementComponent* CharacterMovement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+//	if (CharacterMovement)
+//	{
+//		bBusy = false;
+//		CharacterMovement->StopMovementImmediately();
+//	}
+}
+
+
+
+
 // Called to bind functionality to input
 void ABaseCharacter::SetNewLocation(FVector DestLocation)
 {
-
-	// 	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f") , MovePlugin->IsThisNumber42());
-
-		//MovePlugin->StartupModule();
-		 
-		//MovePlugin->SendMoveActor(WeaponMesh, this, DestLocation);
-
-		UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
-  
-	if (CharacterMove) {
-	
-	if (!PlayerAI)
-	{
-	PlayerAI = Cast<ABaseAIController>(GetController());
-	}
-	if (PlayerAI)
-	IsMoveActor = true;
-	AnimationStart();
-
-	//	UE_LOG(LogTemp, Warning, TEXT(" GetActorLocation %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
-	//	UE_LOG(LogTemp, Warning, TEXT("DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
-	PlayerAI->SendMoveActor(WeaponMesh, this, DestLocation);
-	bBusy = true;
-	
-	
-	}
 	 
+
+//	UE_LOG(LogTemp, Warning, TEXT("new location ABaseCharacter::SetNewLocation %f %f "), DestLocation.X, DestLocation.Y);
+
+	if (Attributes->CharacterMove) {
+
+	//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 1") );
+
+		if (MovePlayerAIComponent){
+		//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 33333"));
+			Attributes->IsMoveActor = true;
+			//	AnimationStart();
+
+				//	UE_LOG(LogTemp, Warning, TEXT(" GetActorLocation %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+				//	UE_LOG(LogTemp, Warning, TEXT("DestLocation %f, %f, %f"), DestLocation.X, DestLocation.Y, DestLocation.Z);
+				MovePlayerAIComponent->SendMoveActor(WeaponMesh, this, DestLocation);
+				//MovePlayerAIComponent->SendMoveActor(WeaponMesh, this, DestLocation);
+			bBusy = true;
+
+
+		}
+		else {
+
+			UE_LOG(LogTemp, Warning, TEXT("CharacterMove 6"));
+		}
+
+	}
+	else {
+
+		UE_LOG(LogTemp, Warning, TEXT("CharacterMove 4"));
+	}
+
 }
 
 
@@ -287,10 +310,10 @@ if (CharacterCurrentHealth >= CharacterMaxHealth)CharacterCurrentHealth = Charac
 */
 void ABaseCharacter::BreakCommand()
 {
-//	PlayerAI = Cast<ABaseAIController>(GetController());
-//	if (PlayerAI) {
+	//	PlayerAI = Cast<ABaseAIController>(GetController());
+	//	if (PlayerAI) {
 
-		bBusy = false;
+	bBusy = false;
 	//	PlayerAI->BreakAI();
 //	}
 }
@@ -301,24 +324,31 @@ void ABaseCharacter::BreakCommand()
 void ABaseCharacter::Server_PatrolToTepeat_Implementation(FVector ControllerLocation)
 //void ABaseCharacter::Server_PatrolToTepeat(FVector ControllerLocation)
 {
-//	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f "), Move->IsThisNumber42(25)); 
-	 
-/* 
-	//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::Server_PatrolToTepeat_Implementation"));
-	if (!PlayerAI)
-	{
-		PlayerAI = Cast<ABaseAIController>(GetController());
-	}
+	//	UE_LOG(LogTemp, Warning, TEXT("Move->IsThisNumber42 %f "), Move->IsThisNumber42(25)); 
 
-	if (PlayerAI)
-	{
-		PlayerAI->SendPatrolTo(WeaponMesh, this, ControllerLocation);
-		//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI true Patrol %f %f"), ControllerLocation.X, ControllerLocation.Y);
-	}
-	else {
-		//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI false Patrol"));
-	}
-	*/
+
+//	if (!MovePlayerAIComponent)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("CharacterMove 2"));
+	//	MovePlayerAIComponent = Cast<UShipNavMovementComponent>(GetController());
+	//}
+
+	
+		//	UE_LOG(LogTemp, Warning, TEXT("ABaseCharacter::Server_PatrolToTepeat_Implementation"));
+		if (!MovePlayerAIComponent)
+		{
+			MovePlayerAIComponent = Cast<UShipNavMovementComponent>(GetController());
+		}
+
+		if (MovePlayerAIComponent)
+		{
+		 	MovePlayerAIComponent->SendPatrolTo(WeaponMesh, this, ControllerLocation);
+			//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI true Patrol %f %f"), ControllerLocation.X, ControllerLocation.Y);
+		}
+		else {
+			//	UE_LOG(LogTemp, Warning, TEXT("PlayerAI false Patrol"));
+		}
+		
 }
 bool ABaseCharacter::Server_PatrolToTepeat_Validate(FVector ControllerLocation)
 {
@@ -327,7 +357,7 @@ bool ABaseCharacter::Server_PatrolToTepeat_Validate(FVector ControllerLocation)
 
 
 /**
-* Hero get information on building construction 
+* Hero get information on building construction
 */
 void ABaseCharacter::FollowTheIslandFunction()
 {
@@ -352,12 +382,12 @@ void ABaseCharacter::WhobuildsBuilding() {}
 
 void ABaseCharacter::HealthComputation()
 {
-	const int32 GoFire = 45; 
+	const int32 GoFire = 45;
 	//float procent = CharacterCurrentHealth / (CharacterMaxHealth / 100);
 	////	UE_LOG(LogTemp, Warning, TEXT("Fire: %f %f %f"), CharacterMaxHealth, procent, CharacterCurrentHealth);
 
-	if(Attributes->GetCurrentProcent() < GoFire)
-		{
+	if (Attributes->GetCurrentProcent() < GoFire)
+	{
 		FireActive();
 	}
 	else
@@ -382,8 +412,8 @@ void ABaseCharacter::FireDeActive()
 {
 	if (ParticleEffectFire)
 	{
-	//	//	UE_LOG(LogTemp, Warning, TEXT("AWarrior::FireDeActive() 2"));
-	//	ParticleEffectFire->Deactivate();
+		//	//	UE_LOG(LogTemp, Warning, TEXT("AWarrior::FireDeActive() 2"));
+		//	ParticleEffectFire->Deactivate();
 	}
 }
 

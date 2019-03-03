@@ -23,21 +23,21 @@
 
   
 
-#include "BaseLand.h"
-#include "BaseCharacter.h" 
+//#include "BaseLand.h"
+//#include "BaseCharacter.h" 
 
 #include "ShipNavMovementComponent.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MOW_API UShipNavMovementComponent : public UNavMovementComponent
 {
-	GENERATED_BODY()
+	//GENERATED_BODY()
+		GENERATED_UCLASS_BODY()
 
 public:
 
-	UShipNavMovementComponent();
-
-		bool debug = false;
+//	UShipNavMovementComponent();
+	 
 		 
 
 	// Called every frame
@@ -146,6 +146,7 @@ public:
 
 private:
 
+	bool debug = true;
 	/**
 	* minimal distance
 	*/
@@ -177,7 +178,7 @@ private:
 	void _getTForse();
 	void MoveActor();
 	FVector PointFinish;
-	TArray<ABaseLand*> IslandSingle;
+	//TArray<ABaseLand*> IslandSingle;
 	TArray<AActor*> ActorsToIgnore;
 	TArray<AActor*> ActorsToIgnore_trace;
 	FVector GetPoinAngel(FVector Center, FVector Ship, float alpha);

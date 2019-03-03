@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 
 
-#include "ShipNavMovementComponent.h"
+#include "Components/ShipNavMovementComponent.h"
 
 //#include "PushForce.h"
 
@@ -76,10 +76,16 @@ class MOW_API ABaseCharacter : public APawn
 	GENERATED_UCLASS_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	//ABaseCharacter();
+	// Sets default values for this pawn's properties 
 
-	bool test1;
+	//bool IsMoveActor;
+
+	void StopCharacter();
+
+	//UPROPERTY(EditAnywhere, Category = "Move", BlueprintReadWrite)
+		UShipNavMovementComponent *MovePlayerAIComponent;
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle")
 		UAttributesComponent * Attributes;
 
@@ -105,20 +111,18 @@ public:
 	* We go to the island to take the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
-		bool GoBehindTheIsland;
-	/*в
+		bool GoBehindTheIsland = false;
+	/*
 	* We go to the island to take the island
 	*/
-	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
-		bool SelectEraseToBoarding;
+//	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
+//		bool SelectEraseToBoarding;
 	/*
-	* Ищем остров для абордажа
 	* We are looking for an island boarding
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
-		bool SearchIslandForAbordage;
-	/*
-	* Имеет ли права герой тоскать острова
+		bool SearchIslandForAbordage = false;
+	/* 
 	* Does the right to carry the hero of the island
 	*/
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
@@ -152,13 +156,15 @@ public:
 
 
 	UPROPERTY(EditAnywhere, Category = "Controller", BlueprintReadWrite)
-		bool MouseEvent;
+		bool MouseEvent = false;
 
 
 	//	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
 	//		UUserWidget * DataBar;
 	//	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
 	//		UUserWidget * DataBar_delete;
+
+	 
 
 protected:
 	// Called when the game starts or when spawned
@@ -195,10 +201,7 @@ public:
 		void Server_PatrolToTepeat(FVector ControllerLocation);
 	 
 
-
-
-	UPROPERTY(Replicated, EditAnywhere, Category = "Build")
-		bool bCanBuildIsland;
+	 
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -237,19 +240,14 @@ public:
 		bool bBusy;
 	UFUNCTION(BlueprintCallable, Category = "move")
 		void SetNewLocation(FVector DestLocation);
-	/*
-	* Может ли герой двигаться
-	* Can the hero to move
-	*/
-	UPROPERTY(Replicated, EditAnywhere, Category = "Move")
-		bool CharacterMove;
+ 
 
 	// Заблокирована или нет кнопка поиска островка
 	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
 		bool HUDabordage;
 
-	UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
-		bool bIsAbordage;
+	//UPROPERTY(EditAnywhere, Category = "Island boarding", BlueprintReadWrite)
+		//bool bIsAbordage;
 
 	//void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 
@@ -262,7 +260,7 @@ public:
 
 
 	UPROPERTY(EditAnywhere, Category = "Health", BlueprintReadWrite)
-		bool FollowTheActor;
+		bool FollowTheActor = false;
 
 
 	virtual void ChangeColorGood();
@@ -281,16 +279,13 @@ public:
 
 
 
-
-	UPROPERTY(EditAnywhere, Category = "Move", BlueprintReadWrite)
-		UShipNavMovementComponent * PlayerAI;
-
+	 
 
 private:
 
 
 	// Двигаемся к острову на абордаж
-	bool bIsLandBoarding;
+//	bool bIsLandBoarding;
 	bool bConstraintComp;
 
 	void DeadActorMagic();

@@ -265,6 +265,9 @@ void UWindComponent::Server_DefaultMouseClick() {
 		}
 	}
 }
+
+
+
 void UWindComponent::leftMouse0() {
 
 	if (!bWindYouCanBuild) {
@@ -341,17 +344,17 @@ void UWindComponent::__MouseClickMoveChar(ABaseCharacter* ObjCharacter)
 		if (ObjCharacter->tpm_IsLand != ObjCharacter->IsLand) {
 			ObjCharacter->IsLand = ObjCharacter->tpm_IsLand;
 			//	ObjCharacter->IsLand->StartMove();
-			ObjCharacter->bCanBuildIsland = true;
+			ObjCharacter->Attributes->setbCanBuildIsland(true);
 		}
 		else
 		{
-			ObjCharacter->bCanBuildIsland = true;
+			ObjCharacter->Attributes->setbCanBuildIsland( true);
 		}
 	}
 	else
 	{
 		ObjCharacter->IsLand = ObjCharacter->tpm_IsLand;
-		ObjCharacter->bCanBuildIsland = true;
+		ObjCharacter->Attributes->setbCanBuildIsland(true);
 	}
 }
 
@@ -367,7 +370,7 @@ void UWindComponent::SetNewLocationBuilder() {
 					if (iMeshBuilder) {
 
 						if (SingleLand) {
-							if (Charac[0]->bIsAbordage) {
+							if (Charac[0]-> Attributes->getbIsAbordage()) {
 
 								// If the hero drags the island to the boarding, then it must be removed
 								Charac[0]->RemovingIslandAbordage();
@@ -423,7 +426,7 @@ void UWindComponent::SetNewLocationBuilderAbordage() {
 					if (!Charac[0]->IsLand->AbordageIsland) {
 						//	UE_LOG(LogTemp, Warning, TEXT("Charac[0]->IsLand->AbordageIsland nothing is built on the island its boarding"));
 					}
-				if (Charac[0]->bIsAbordage) {
+				if (Charac[0]->Attributes->getbIsAbordage()) {
 					// If the hero drags the island to the boarding, then it must be removed
 					//	UE_LOG(LogTemp, Warning, TEXT("AWindController::SetNewLocationBilderAbordage 5.1"));
 					Charac[0]->RemovingIslandAbordage();
@@ -438,7 +441,7 @@ void UWindComponent::SetNewLocationBuilderAbordage() {
 					// Making HUD change available
 					//	Charac[0]->IsLand->StatusBuildung = 1;
 					NotChangeHud = true;
-					Charac[0]->SelectEraseToBoarding = true;
+					Charac[0]->Attributes->setSelectEraseToBoarding(true);
 					// Unlock button
 					Charac[0]->HUDabordage = true;
 					// Remove the island from the cursor
@@ -523,7 +526,7 @@ bool  UWindComponent::BuildBreak() {
 
 		if (Charac.Num() == 1)
 		{
-			Charac[0]->SelectEraseToBoarding = false;
+			Charac[0]->Attributes->setSelectEraseToBoarding(false);
 		}
 		return true;
 	}
@@ -549,14 +552,14 @@ void UWindComponent::SetActorLocationHeroes(APlayerController* PlayerController)
 			//	traceIsland(Loc);
 			Loc.Z = 0.f;
 			if (iBaseCharacterSpawn) {
-				Charac[0]->bCanBuildIsland = false;
+				Charac[0]->Attributes->setbCanBuildIsland(false);
 				//	bWindYouCanBuild = false; 
 
 				traceGarbage(Loc);
 				//	iBaseCharacterSpawn -> ChangeColorGood();
 				isHeroesBlock = true;
 				bWindYouCanBuild = true;
-				Charac[0]->bCanBuildIsland = true;
+				Charac[0]->Attributes->setbCanBuildIsland(true);
 				//	EventUnit = 0; //  
 			}
 			else

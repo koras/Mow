@@ -3,6 +3,12 @@
 #include "ShipNavMovementComponent.h"
 
 
+#include "BaseLand.h"
+#include "BaseCharacter.h" 
+
+//#include "BaseLand.h"
+//#include "BaseCharacter.h" 
+
 
 // Fill out your copyright notice in the Description page of Project Settings.
 
@@ -17,7 +23,7 @@
 */
 
 
-UShipNavMovementComponent::UShipNavMovementComponent()
+UShipNavMovementComponent::UShipNavMovementComponent(const FObjectInitializer& ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	LocationStartAndFinish = false;
@@ -35,34 +41,35 @@ void UShipNavMovementComponent::BeginPlay()
 	Super::BeginPlay();
 
 
-	//TArray<AActor*> Island;
-	///UGameplayStatics::GetAllActorsOfClass(GetWorld(), AIslandSingle::StaticClass(), Island);
+	TArray<AActor*> Island;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABaseLand::StaticClass(), Island);
 
-	//for (int32 i = 0; i < Island.Num(); i++)
-	//{
-	//	ActorsToIgnore.Add(Island[i]);
-//	}
-	//FTimerHandle ChackTimerHandle;
-	//GetWorld()->GetTimerManager().SetTimer(ChackTimerHandle, this, &UShipNavMovementComponent::CheckPoint, .33f, true);
+	for (int32 i = 0; i < Island.Num(); i++)
+	{
+		ActorsToIgnore.Add(Island[i]);
+	}
+
+
+	FTimerHandle ChackTimerHandle;
+//	GetWorld()->GetTimerManager().SetTimer(ChackTimerHandle, this, &UShipNavMovementComponent::CheckPoint, .33f, true);
+
 
 	//	FTimerHandle ChackMoveActor;
-	//	GetWorld()->GetTimerManager().SetTimer(ChackMoveActor, this, &ABaseAIController::MoveActor, .1f, true);
+	//	GetWorld()->GetTimerManager().SetTimer(ChackMoveActor, this, &UShipNavMovementComponent::MoveActor, .1f, true);
 }
 
-// Called every frame
-/* 
-void UShipNavMovementComponent::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	MoveToPositionCharacter();
-	MoveActor();
-	TickPatrol();
-}*/
 
 // Called every frame
 void UShipNavMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+
+
+	//if (debug)
+	//	UE_LOG(LogTemp, Warning, TEXT(" UShipNavMovementComponent::TickComponent"));
+
+
 	MoveToPositionCharacter();
 	MoveActor();
 	TickPatrol();
@@ -169,7 +176,6 @@ void UShipNavMovementComponent::CheckPoint() {
 //https://otvet.mail.ru/question/46536998
 FVector UShipNavMovementComponent::rotateFVector(FVector point, float angle) {
 	FVector  rotated_point;
-
 	rotated_point.X = point.X * FMath::Cos(angle) - point.Y * FMath::Sin(angle);
 	rotated_point.Y = point.X * FMath::Sin(angle) + point.Y * FMath::Cos(angle);
 	return rotated_point;
@@ -317,8 +323,13 @@ bool UShipNavMovementComponent::TracePoint(AActor* ActorIgnor, FVector  Start, F
 
 void UShipNavMovementComponent::MoveActor()
 {
+
+
 	if (getDistancePoint() && EnableTickMove && GoMove)
 	{
+
+	//	if (debug)
+		//	UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::MoveActor(),"));
 		MoveForce();
 		MoveTorque();
 	}
@@ -366,6 +377,14 @@ void UShipNavMovementComponent::SendPatrolTo(UPrimitiveComponent * Primitive, AA
 	GoMove = true;
 	PrimitivePawn = Primitive;
 	ToActorCharacter = BaseCharacter;
+
+	if (!PrimitivePawn || !ToActorCharacter)
+	{
+		if (debug)
+			UE_LOG(LogTemp, Warning, TEXT("fail UPrimitiveComponent"));
+	}
+
+
 	//	UE_LOG(LogTemp, Warning, TEXT("Patrol To peat"));
 	CharacterCurrentLocation = ToActorCharacter->GetActorLocation();
 	indexZ = CharacterCurrentLocation.Z;
@@ -429,36 +448,56 @@ bool UShipNavMovementComponent::PatrolGetTarget() {
 void UShipNavMovementComponent::SendMoveActor(UPrimitiveComponent * Primitive, AActor* CharacterSingleFVector, FVector FinishLocation)
 {
 
-	//UE_LOG(LogTemp, Warning, TEXT("SendMoveActor %f %f"), FinishLocation.X, FinishLocation.Y);
-	//	UE_LOG(LogTemp, Warning, TEXT("SendMoveActor "));
-
+	if (debug) {
+		//UE_LOG(LogTemp, Warning, TEXT("SendMoveActor %f %f"), FinishLocation.X, FinishLocation.Y);
+		UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::SendMoveActor 1"));
+	}
 	BreakAI();
 	CharacterCurrentLocation = CharacterSingleFVector->GetActorLocation();
 	indexZ = CharacterCurrentLocation.Z;
 	PrimitivePawn = Primitive;
 	ToActorCharacter = CharacterSingleFVector;
+	if (!PrimitivePawn || !ToActorCharacter) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("fail PrimitivePawn 1 "));
+	}
+
 	getPointTarget(ToActorCharacter, CharacterCurrentLocation, FinishLocation);
 
 	NextPointLocation(CharacterCurrentLocation, FinishLocation);
 	GoMove = true;
 	EnableTickMove = true;
+	if (debug) {
+	UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::SendMoveActor 2 "));
+	}
 }
 
 
 // LocationStartAndFinish
 void UShipNavMovementComponent::NextPointLocation(FVector CurrentLocation, FVector FinishLocation)
 {
-	if (debug)
+	if (debug) {
+		UE_LOG(LogTemp, Warning, TEXT("CurrentLocation %f %f"), CurrentLocation.X, CurrentLocation.Y);
 		UE_LOG(LogTemp, Warning, TEXT("Finish %f %f"), FinishLocation.X, FinishLocation.Y);
-	const float  z = 0.f;
+
+
+	}
+	 const float  z = 0.f;
 	CurrentLocation.Z = FinishLocation.Z = z;
+
+
 	float d = FVector::Dist(CurrentLocation, FinishLocation);
 
 	if (debug)
-		UE_LOG(LogTemp, Warning, TEXT("go  %f"), d);
+		UE_LOG(LogTemp, Warning, TEXT("go =  %f"), d);
 
 	if (CourseOnTarget.Num() > 0)
 	{
+
+
+		if (debug)
+			UE_LOG(LogTemp, Warning, TEXT("CourseOnTarget.Num()  %f"), CourseOnTarget.Num());
+
 		PointCurrentTarget = CourseOnTarget[0];
 		CourseOnTarget.RemoveAt(0);
 	}
@@ -469,6 +508,12 @@ void UShipNavMovementComponent::NextPointLocation(FVector CurrentLocation, FVect
 			if (debug)
 				UE_LOG(LogTemp, Warning, TEXT("End move %f"), d);
 			GoMove = false;
+		}
+		else {
+
+			if (debug)
+				UE_LOG(LogTemp, Warning, TEXT("too near %f"), d);
+		
 		}
 	}
 }
@@ -499,7 +544,10 @@ void UShipNavMovementComponent::MoveForce()
 {
 	if (PrimitivePawn && getDistancePoint() && GoMove)
 	{
-		//	UE_LOG(LogTemp, Warning, TEXT("ABaseAIController::MoveForce()"));
+		if (debug)
+		{
+		//		UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::MoveForce()"));
+		}
 		FVector PrimitiveForwardVector = PrimitivePawn->GetForwardVector();
 		float InRangeA = 200.f;
 		float InRangeB = 10000.f;
@@ -516,14 +564,20 @@ void UShipNavMovementComponent::MoveTorque()
 {
 	if (ToActorCharacter &&  getDistancePoint())
 	{
+		if (debug)
+		{
+		//	UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::MoveTorque)"));
+		}
 		_getTForse();
-	//	PrimitivePawn->AddTorque(FVector(0, 0, TForce), NAME_None, true);
+		PrimitivePawn->AddTorque(FVector(0, 0, TForce), NAME_None, true);
 	}
 }
 
 
 bool UShipNavMovementComponent::getDistancePoint()
 {
+//	if (debug)
+	//	UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::getDistancePoint()"));
 	if (ToActorCharacter && GoMove)
 	{
 		FVector tmpV = ToActorCharacter->GetActorLocation();
@@ -531,10 +585,15 @@ bool UShipNavMovementComponent::getDistancePoint()
 
 		if (CurrentDistance > 150)
 		{
+
+			//if (debug)
+			//	UE_LOG(LogTemp, Warning, TEXT("CurrentDistance > 150"));
 			return ThereIsPoint = true;
 		}
 		else
 		{
+			if (debug)
+				UE_LOG(LogTemp, Warning, TEXT("CurrentDistance < 150"));
 
 			TArray< TEnumAsByte<EObjectTypeQuery> > ObjectTypes;
 			TArray<FHitResult>  OutHits;
@@ -563,6 +622,10 @@ bool UShipNavMovementComponent::getDistancePoint()
 			NextPointLocation(PointCurrentTarget, ToActorCharacter->GetActorLocation());
 		}
 	}
+	else {
+	//	if (debug)
+	//		UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::getDistancePoint 2"));
+	}
 	return false;
 }
 
@@ -586,10 +649,6 @@ void UShipNavMovementComponent::_getTForse()
 		Logic * ALogic = new Logic();
 		ALogic->AngleCos(PointCurrentLocation, PointCurrentTarget, PointCurrentCameraT);
 		float TAngle_tmp = ALogic->floatAngleCos;
-
-
-
-
 
 		// from point
 		FRotator FRotator_tmp = UKismetMathLibrary::FindLookAtRotation(PointCurrentLocation, PointCurrentTarget);
@@ -847,11 +906,17 @@ void UShipNavMovementComponent::TraceForward(FVector start_point, FVector end_po
 void UShipNavMovementComponent::getPointTarget(AActor* Character, FVector start_point, FVector end_point)
 {
 
+	if (debug)
+		UE_LOG(LogTemp, Warning, TEXT("UShipNavMovementComponent::getPointTarget "));
 	rec_log++; 
 
 	if (rec_log > 4) {
 		rec_log = 0;
 		// something scary
+
+		if (debug) {
+			UE_LOG(LogTemp, Warning, TEXT("something scary "));
+		}
 		return;
 	}
 
@@ -863,8 +928,11 @@ void UShipNavMovementComponent::getPointTarget(AActor* Character, FVector start_
 		CourseOnTarget.Empty();
 		Finish_recursion = true;
 		PointFinish = end_point;
-		//	UE_LOG(LogTemp, Warning, TEXT("=== %f %f %f ===="), start_point.X, start_point.Y, start_point.Z);
-		//	UE_LOG(LogTemp, Warning, TEXT("=== %f %f %f ===="), end_point.X, end_point.Y, end_point.Z);
+
+		if (debug) {
+			UE_LOG(LogTemp, Warning, TEXT("=== %f %f %f ===="), start_point.X, start_point.Y, start_point.Z);
+			UE_LOG(LogTemp, Warning, TEXT("=== %f %f %f ===="), end_point.X, end_point.Y, end_point.Z);
+		}
 	}
 	else {
 		//	UE_LOG(LogTemp, Warning, TEXT("-s-- %f %f %f ---"), start_point.X, start_point.Y, start_point.Z);
@@ -955,8 +1023,12 @@ void UShipNavMovementComponent::getPointTarget(AActor* Character, FVector start_
 				CourseOnTarget.Add(PointCurrent);
 
 			}
-			//	UE_LOG(LogTemp, Warning, TEXT("Blue colour %f %f  %f %f "), dataOLD.X, dataOLD.Y, PointCurrent.X, PointCurrent.Y);
-			//DrawDebugLine(GetWorld(), dataOLD, PointCurrent, FColor(0, 0, 102), true, 6, 0, 2.33332);
+			
+
+			if (debug) { 
+					UE_LOG(LogTemp, Warning, TEXT("Blue colour %f %f  %f %f "), dataOLD.X, dataOLD.Y, PointCurrent.X, PointCurrent.Y);
+					DrawDebugLine(GetWorld(), dataOLD, PointCurrent, FColor(0, 0, 102), true, 6, 0, 2.33332);
+			}
 			//TMP_dataV = PointCurrent;
 		}
 	}
